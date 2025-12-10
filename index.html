@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Email Calendar Planner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --bg-softer: #020617;
+      --border-subtle: #1f2937;
+      --accent: #f97316;
+      --accent-soft: #fed7aa;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.5);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px;
+    }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+
+    .title-block span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .month-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #111827, #020617);
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+
+    .month-button {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 6px;
+      font-size: 1.2rem;
+    }
+
+    .month-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .pill-filter {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15,23,42,0.75);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-filter select {
+      background: transparent;
+      border: none;
+      color: inherit;
+      font-size: inherit;
+      outline: none;
+    }
+
+    /* Calendar layout */
+
+    .calendar-shell {
+      background: rgba(15,23,42,0.95);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 12px 14px;
+    }
+
+    .weekday-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 6px;
+      padding: 0 2px;
+    }
+
+    .weekday {
+      text-align: center;
+      font-size: 0.70rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .day-cell {
+      position: relative;
+      min-height: 120px;
+      background: linear-gradient(145deg, #020617, #111827);
+      border-radius: 14px;
+      padding: 6px 6px 4px;
+      border: 1px solid rgba(31,41,55,0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .day-cell.is-today {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.6);
+    }
+
+    .day-number {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+
+    .day-count {
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      color: #fef3c7;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      opacity: 0.85;
+    }
+
+    .day-events {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+      padding-right: 1px;
+    }
+
+    .day-empty {
+      font-size: 0.68rem;
+      color: #4b5563;
+      margin-top: 3px;
+    }
+
+    .event-card {
+      position: relative;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: radial-gradient(circle at top left, rgba(249,115,22,0.20), rgba(15,23,42,0.9));
+      padding: 4px 7px 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+      font-size: 0.7rem;
+      text-align: left;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-1px) translateZ(0);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+      border-color: rgba(249,115,22,0.9);
+    }
+
+    .event-time {
+      font-size: 0.68rem;
+      color: var(--accent-soft);
+      letter-spacing: 0.04em;
+    }
+
+    .event-name {
+      font-weight: 600;
+      font-size: 0.72rem;
+      line-height: 1.15;
+      color: #e5e7eb;
+      margin-top: 1px;
+    }
+
+    .event-audience {
+      font-size: 0.67rem;
+      color: #9ca3af;
+    }
+
+    .event-chip {
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      color: #cbd5f5;
+      margin-left: auto;
+    }
+
+    /* Slight color accents by objective */
+
+    .objective-fundraising .event-card {
+      background: radial-gradient(circle at top left, rgba(248,113,113,0.25), rgba(15,23,42,0.95));
+      border-color: rgba(248,113,113,0.5);
+    }
+
+    .objective-engagement .event-card {
+      background: radial-gradient(circle at top left, rgba(96,165,250,0.25), rgba(15,23,42,0.95));
+      border-color: rgba(59,130,246,0.5);
+    }
+
+    .objective-thank-you .event-card {
+      background: radial-gradient(circle at top left, rgba(52,211,153,0.25), rgba(15,23,42,0.95));
+      border-color: rgba(52,211,153,0.55);
+    }
+
+    /* Modal */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal.visible {
+      display: flex;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.2), rgba(0,0,0,0.85));
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-panel {
+      position: relative;
+      max-width: 640px;
+      width: 92%;
+      background: linear-gradient(145deg, #020617, #111827);
+      border-radius: 20px;
+      border: 1px solid rgba(55,65,81,0.9);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.7);
+      padding: 18px 18px 16px;
+      color: var(--text);
+      z-index: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    .modal-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 2px 0 0;
+    }
+
+    .modal-close {
+      border: none;
+      background: rgba(15,23,42,0.9);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 0.65rem;
+    }
+
+    .badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.9);
+      color: var(--text-muted);
+    }
+
+    .badge-accent {
+      border-color: rgba(249,115,22,0.9);
+      color: var(--accent-soft);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+
+    .detail-item {
+      background: rgba(15,23,42,0.9);
+      border-radius: 10px;
+      border: 1px solid rgba(31,41,55,0.9);
+      padding: 6px 8px;
+    }
+
+    .detail-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .detail-value {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    @media (min-width: 720px) {
+      .detail-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .day-cell {
+        min-height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="title-block">
+        <h1>Email Send Calendar</h1>
+        <span>Clean view of Date → Time → Name → Audience, with all creative details one click away.</span>
+      </div>
+      <div class="controls">
+        <div class="month-switch">
+          <button class="month-button" id="prevMonth" aria-label="Previous month">‹</button>
+          <div class="month-label" id="monthLabel"></div>
+          <button class="month-button" id="nextMonth" aria-label="Next month">›</button>
+        </div>
+        <div class="pill-filter">
+          Audience
+          <select id="audienceFilter">
+            <option value="">All</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <div class="calendar-shell">
+      <div class="weekday-row">
+        <div class="weekday">Sun</div>
+        <div class="weekday">Mon</div>
+        <div class="weekday">Tue</div>
+        <div class="weekday">Wed</div>
+        <div class="weekday">Thu</div>
+        <div class="weekday">Fri</div>
+        <div class="weekday">Sat</div>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="eventModal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <p class="modal-meta" id="modalMeta"></p>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-badges" id="modalBadges"></div>
+
+      <div class="detail-grid" id="modalDetails"></div>
+    </div>
+  </div>
+
+  <script>
+    const calendarGrid = document.getElementById("calendarGrid");
+    const monthLabel = document.getElementById("monthLabel");
+    const prevMonthBtn = document.getElementById("prevMonth");
+    const nextMonthBtn = document.getElementById("nextMonth");
+    const audienceFilter = document.getElementById("audienceFilter");
+
+    const modal = document.getElementById("eventModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMeta = document.getElementById("modalMeta");
+    const modalBadges = document.getElementById("modalBadges");
+    const modalDetails = document.getElementById("modalDetails");
+    const modalClose = document.getElementById("modalClose");
+
+    let allEvents = [];
+    let currentYear;
+    let currentMonth; // 0-based
+
+    const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const monthNames = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+
+    // Load data
+    fetch("schedule.json")
+      .then(res => res.json())
+      .then(data => {
+        allEvents = data.map(e => {
+          const d = new Date(e.date);
+          return {
+            ...e,
+            year: d.getFullYear(),
+            month: d.getMonth(),
+            day: d.getDate(),
+            timeDisplay: e.time || "",
+            objectiveKey: (e.objective || "").toLowerCase().trim().replace(/\s+/g, "-"),
+          };
+        });
+
+        // default month = month of first event
+        if (allEvents.length) {
+          currentYear = allEvents[0].year;
+          currentMonth = allEvents[0].month;
+        } else {
+          const now = new Date();
+          currentYear = now.getFullYear();
+          currentMonth = now.getMonth();
+        }
+
+        initAudienceFilter();
+        renderCalendar();
+      })
+      .catch(err => {
+        console.error("Failed to load schedule.json", err);
+      });
+
+    function initAudienceFilter() {
+      const audiences = Array.from(new Set(
+        allEvents
+          .map(e => (e.audience || "").trim())
+          .filter(Boolean)
+      )).sort();
+
+      for (const aud of audiences) {
+        const opt = document.createElement("option");
+        opt.value = aud;
+        opt.textContent = aud;
+        audienceFilter.appendChild(opt);
+      }
+
+      audienceFilter.addEventListener("change", renderCalendar);
+    }
+
+    function renderCalendar() {
+      calendarGrid.innerHTML = "";
+      monthLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstOfMonth = new Date(currentYear, currentMonth, 1);
+      const startWeekday = firstOfMonth.getDay(); // 0=Sun
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const today = new Date();
+
+      // Filter events for this month
+      const activeAudience = audienceFilter.value;
+      const monthEvents = allEvents.filter(e =>
+        e.year === currentYear &&
+        e.month === currentMonth &&
+        (!activeAudience || e.audience === activeAudience)
+      );
+
+      // Group by day
+      const byDay = {};
+      for (const ev of monthEvents) {
+        if (!byDay[ev.day]) byDay[ev.day] = [];
+        byDay[ev.day].push(ev);
+      }
+      for (const d in byDay) {
+        byDay[d].sort((a, b) => (a.time || "").localeCompare(b.time || ""));
+      }
+
+      // Leading blanks
+      for (let i = 0; i < startWeekday; i++) {
+        const empty = document.createElement("div");
+        calendarGrid.appendChild(empty);
+      }
+
+      // Days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement("div");
+        const todaysCell =
+          day === today.getDate() &&
+          currentMonth === today.getMonth() &&
+          currentYear === today.getFullYear();
+
+        cell.className = "day-cell" + (todaysCell ? " is-today" : "");
+
+        const header = document.createElement("div");
+        header.className = "day-number";
+
+        const dayNumberSpan = document.createElement("span");
+        dayNumberSpan.textContent = day;
+        header.appendChild(dayNumberSpan);
+
+        const eventsForDay = byDay[day] || [];
+        if (eventsForDay.length > 0) {
+          const count = document.createElement("span");
+          count.className = "day-count";
+          count.textContent = eventsForDay.length + (eventsForDay.length === 1 ? " send" : " sends");
+          header.appendChild(count);
+        }
+
+        cell.appendChild(header);
+
+        const eventsContainer = document.createElement("div");
+        eventsContainer.className = "day-events";
+
+        if (!eventsForDay.length) {
+          const emptyMsg = document.createElement("div");
+          emptyMsg.className = "day-empty";
+          emptyMsg.textContent = "No sends";
+          eventsContainer.appendChild(emptyMsg);
+        } else {
+          for (const ev of eventsForDay) {
+            const wrapper = document.createElement("div");
+            wrapper.className = `objective-${ev.objectiveKey || "default"}`;
+
+            const card = document.createElement("div");
+            card.className = "event-card";
+
+            const time = document.createElement("div");
+            time.className = "event-time";
+            time.textContent = ev.timeDisplay || "All day";
+
+            const name = document.createElement("div");
+            name.className = "event-name";
+            name.textContent = ev.name || "(Untitled send)";
+
+            const metaRow = document.createElement("div");
+            metaRow.style.display = "flex";
+            metaRow.style.alignItems = "center";
+            metaRow.style.gap = "6px";
+            metaRow.style.marginTop = "1px";
+
+            const audience = document.createElement("div");
+            audience.className = "event-audience";
+            audience.textContent = ev.audience || "";
+
+            const pill = document.createElement("span");
+            pill.className = "event-chip";
+            pill.textContent = ev.objective || "";
+
+            metaRow.appendChild(audience);
+            if (ev.objective) metaRow.appendChild(pill);
+
+            card.appendChild(time);
+            card.appendChild(name);
+            card.appendChild(metaRow);
+
+            card.addEventListener("click", () => openModal(ev));
+            wrapper.appendChild(card);
+            eventsContainer.appendChild(wrapper);
+          }
+        }
+
+        cell.appendChild(eventsContainer);
+        calendarGrid.appendChild(cell);
+      }
+    }
+
+    function openModal(ev) {
+      modalTitle.textContent = ev.name || "(Untitled send)";
+
+      const dateObj = new Date(ev.year, ev.month, ev.day);
+      const weekDay = weekdayNames[dateObj.getDay()];
+      const dateStr = `${weekDay}, ${monthNames[ev.month]} ${ev.day}, ${ev.year}`;
+      const timeStr = ev.timeDisplay ? ` • ${ev.timeDisplay}` : "";
+      modalMeta.textContent = dateStr + timeStr;
+
+      modalBadges.innerHTML = "";
+      const badges = [];
+
+      if (ev.audience) badges.push({ text: ev.audience, accent: true });
+      if (ev.objective) badges.push({ text: ev.objective, accent: false });
+      if (ev.segment) badges.push({ text: ev.segment, accent: false });
+      if (ev.sender) badges.push({ text: ev.sender, accent: false });
+      if (ev.batch) badges.push({ text: ev.batch, accent: false });
+      if (ev.status) badges.push({ text: ev.status, accent: false });
+
+      for (const b of badges) {
+        const span = document.createElement("span");
+        span.className = "badge" + (b.accent ? " badge-accent" : "");
+        span.textContent = b.text;
+        modalBadges.appendChild(span);
+      }
+
+      const detailFields = [
+        ["Key takeaway", ev.key_takeaway],
+        ["Subject prompt", ev.subject_prompt],
+        ["Key message", ev.key_message],
+        ["Art direction", ev.art_direction],
+        ["Sources / references", ev.sources],
+      ];
+
+      modalDetails.innerHTML = "";
+      for (const [label, value] of detailFields) {
+        if (!value) continue;
+        const item = document.createElement("div");
+        item.className = "detail-item";
+
+        const lbl = document.createElement("div");
+        lbl.className = "detail-label";
+        lbl.textContent = label;
+
+        const val = document.createElement("div");
+        val.className = "detail-value";
+        val.textContent = value;
+
+        item.appendChild(lbl);
+        item.appendChild(val);
+        modalDetails.appendChild(item);
+      }
+
+      modal.classList.add("visible");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+      modal.classList.remove("visible");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal || e.target.classList.contains("modal-backdrop")) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    prevMonthBtn.addEventListener("click", () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar();
+    });
+
+    nextMonthBtn.addEventListener("click", () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar();
+    });
+  </script>
+</body>
+</html>
