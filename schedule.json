@@ -336,7 +336,7 @@
     "status":"BRIEFED \n(DuBose)"
   },
   {
-    "date":"12\/15\n Net New Send",
+    "date":"12\/15\/2025\n Net New Send",
     "time":"9am STO",
     "name":"Shopping List Update",
     "audience":"Mass",
@@ -352,7 +352,7 @@
     "status":null
   },
   {
-    "date":"12\/16\n Net New Send",
+    "date":"12\/16\/2025\n Net New Send",
     "time":"STO",
     "name":"Shopping List Update Resend (12.15 Non Openers)",
     "audience":"Mass NOR",

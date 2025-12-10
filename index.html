@@ -536,24 +536,73 @@
     }
 
     function makeEventId(ev) {
-      return `${ev.date}|${ev.timeDisplay || ""}|${ev.name || ""}`;
+      return `${ev.date}|${ev.rawTime || ""}|${ev.name || ""}`;
     }
 
-    // Load data
+    // ---- time + field helpers ----
+    function formatTimeDisplay(raw) {
+      const s = String(raw || "").trim();
+      if (!s || s === "NaN") return "";
+      const m = s.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+      if (m) {
+        let h = parseInt(m[1], 10);
+        const mm = m[2];
+        const suffix = h >= 12 ? "PM" : "AM";
+        if (h === 0) h = 12;
+        if (h > 12) h -= 12;
+        return `${h}:${mm} ${suffix} ET`;
+      }
+      return s;
+    }
+
+    function getRawDate(e) {
+      return e.date || e.Date || e["Date:"] || e["UUSA Email Send Table"] || "";
+    }
+
+    function getRawTime(e) {
+      return e.time || e.Time || e["Time:"] || "";
+    }
+
+    function mapEvent(e) {
+      const rawDate = getRawDate(e);
+      const d = new Date(rawDate);
+      if (isNaN(d.getTime())) {
+        console.warn("Skipping event with invalid date:", rawDate, e);
+        return null;
+      }
+      const rawTime = getRawTime(e);
+
+      return {
+        ...e,
+        date: d.toISOString().slice(0, 10),
+        year: d.getFullYear(),
+        month: d.getMonth(),
+        day: d.getDate(),
+        rawTime,
+        timeDisplay: formatTimeDisplay(rawTime),
+        objective: e.objective || e["Objective: "] || e["Objective"] || e["Objective:"] || "",
+        audience: e.audience || e["Audience:"] || e["Audience"] || "",
+        segment: e.segment || e["Supression"] || e["Suppression"] || "",
+        key_takeaway: e.key_takeaway || e["Key Takeaway"] || "",
+        subject_prompt: e.subject_prompt || e["Subject Prompt:"] || "",
+        key_message: e.key_message || e["Key Message"] || "",
+        sources: e.sources || e["Potential Source(s):"] || "",
+        art_direction: e.art_direction || e["Art Direction:"] || "",
+        sender: e.sender || e["Sender:"] || "",
+        batch: e.batch || e["Batch"] || "",
+        status: e.status || e["Status:"] || "",
+        objectiveKey: ((e.objective || e["Objective: "] || "") + "")
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-"),
+      };
+    }
+
+    // ---- load data ----
     fetch("schedule.json")
       .then(res => res.json())
       .then(data => {
-        allEvents = data.map(e => {
-          const d = new Date(e.date);
-          return {
-            ...e,
-            year: d.getFullYear(),
-            month: d.getMonth(),
-            day: d.getDate(),
-            timeDisplay: e.time || "",
-            objectiveKey: (e.objective || "").toLowerCase().trim().replace(/\s+/g, "-"),
-          };
-        });
+        allEvents = data.map(mapEvent).filter(Boolean);
 
         loadDoneMap();
 
@@ -612,7 +661,7 @@
         byDay[ev.day].push(ev);
       }
       for (const d in byDay) {
-        byDay[d].sort((a, b) => (a.time || "").localeCompare(b.time || ""));
+        byDay[d].sort((a, b) => (a.rawTime || "").localeCompare(b.rawTime || ""));
       }
 
       for (let i = 0; i < startWeekday; i++) {
@@ -691,7 +740,7 @@
             pill.textContent = ev.objective || "";
 
             metaRow.appendChild(audience);
-            if (ev.objective) metaRow.appendChild(pill);
+            
 
             if (doneMap[id]) {
               const doneBadge = document.createElement("span");
@@ -729,10 +778,6 @@
       const badges = [];
       if (ev.audience) badges.push({ text: ev.audience, accent: true });
       if (ev.objective) badges.push({ text: ev.objective, accent: false });
-      if (ev.segment) badges.push({ text: ev.segment, accent: false });
-      if (ev.sender) badges.push({ text: ev.sender, accent: false });
-      if (ev.batch) badges.push({ text: ev.batch, accent: false });
-      if (ev.status) badges.push({ text: ev.status, accent: false });
 
       for (const b of badges) {
         const span = document.createElement("span");
@@ -742,11 +787,17 @@
       }
 
       const detailFields = [
+        ["Objective", ev.objective],
+        ["Audience", ev.audience],
+        ["Suppression / Segment", ev.segment],
         ["Key takeaway", ev.key_takeaway],
         ["Subject prompt", ev.subject_prompt],
         ["Key message", ev.key_message],
         ["Art direction", ev.art_direction],
         ["Sources / references", ev.sources],
+        ["Sender", ev.sender],
+        ["Batch", ev.batch],
+        ["Status", ev.status],
       ];
 
       modalDetails.innerHTML = "";
