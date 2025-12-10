@@ -7,15 +7,15 @@
   <style>
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --bg: #0f172a;
-      --bg-soft: #111827;
-      --bg-softer: #020617;
-      --border-subtle: #1f2937;
+      --bg: #f3f4f6;
+      --bg-soft: #ffffff;
+      --bg-softer: #f9fafb;
+      --border-subtle: #e5e7eb;
       --accent: #f97316;
-      --accent-soft: #fed7aa;
-      --text: #e5e7eb;
-      --text-muted: #9ca3af;
-      --shadow-soft: 0 18px 45px rgba(0,0,0,0.5);
+      --accent-soft: #ea580c;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --shadow-soft: 0 18px 45px rgba(15,23,42,0.12);
       --radius-lg: 18px;
       --radius-pill: 999px;
     }
@@ -24,7 +24,7 @@
 
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      background: radial-gradient(circle at top, #ffffff 0, #f3f4f6 60%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -73,11 +73,11 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, #111827, #020617);
+      background: #f9fafb;
       border-radius: var(--radius-pill);
       padding: 4px 10px;
       border: 1px solid var(--border-subtle);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 14px rgba(15,23,42,0.06);
     }
 
     .month-button {
@@ -98,7 +98,7 @@
       padding: 6px 12px;
       border-radius: var(--radius-pill);
       border: 1px solid var(--border-subtle);
-      background: rgba(15,23,42,0.75);
+      background: #f9fafb;
       color: var(--text-muted);
       font-size: 0.75rem;
       display: inline-flex;
@@ -115,7 +115,7 @@
     }
 
     .calendar-shell {
-      background: rgba(15,23,42,0.95);
+      background: var(--bg-soft);
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-soft);
@@ -135,7 +135,7 @@
       font-size: 0.70rem;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: var(--text-muted);
+      color: #9ca3af;
     }
 
     .calendar-grid {
@@ -147,10 +147,10 @@
     .day-cell {
       position: relative;
       min-height: 120px;
-      background: linear-gradient(145deg, #020617, #111827);
+      background: linear-gradient(145deg, #ffffff, #f9fafb);
       border-radius: 14px;
       padding: 6px 6px 4px;
-      border: 1px solid rgba(31,41,55,0.9);
+      border: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -158,7 +158,8 @@
 
     .day-cell.is-today {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(249,115,22,0.6);
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.35);
+      background: #fff7ed;
     }
 
     .day-number {
@@ -175,9 +176,8 @@
       font-size: 0.65rem;
       padding: 2px 7px;
       border-radius: 999px;
-      color: #fef3c7;
-      background: linear-gradient(135deg, #f97316, #fb923c);
-      opacity: 0.85;
+      color: #9a3412;
+      background: #fed7aa;
     }
 
     .day-events {
@@ -191,15 +191,15 @@
 
     .day-empty {
       font-size: 0.68rem;
-      color: #4b5563;
+      color: #9ca3af;
       margin-top: 3px;
     }
 
     .event-card {
       position: relative;
       border-radius: 10px;
-      border: 1px solid rgba(55,65,81,0.9);
-      background: radial-gradient(circle at top left, rgba(249,115,22,0.20), rgba(15,23,42,0.9));
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
       padding: 4px 7px 4px;
       cursor: pointer;
       display: flex;
@@ -209,31 +209,35 @@
       font-size: 0.7rem;
       text-align: left;
       transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
+      box-shadow: 0 3px 8px rgba(15,23,42,0.04);
     }
 
     .event-card:hover {
       transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.6);
-      border-color: rgba(249,115,22,0.9);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.08);
+      border-color: rgba(249,115,22,0.7);
     }
 
     .event-time {
       font-size: 0.68rem;
       color: var(--accent-soft);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
 
     .event-name {
       font-weight: 600;
       font-size: 0.72rem;
       line-height: 1.15;
-      color: #e5e7eb;
+      color: var(--text);
       margin-top: 1px;
     }
 
     .event-audience {
       font-size: 0.67rem;
-      color: #9ca3af;
+      color: var(--text-muted);
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: #f3f4f6;
     }
 
     .event-card.is-done {
@@ -246,23 +250,83 @@
       padding: 1px 6px;
       border-radius: 999px;
       border: 1px solid rgba(34,197,94,0.7);
-      color: #bbf7d0;
+      color: #15803d;
       margin-left: auto;
+      background: #dcfce7;
     }
 
-    .objective-fundraising .event-card {
-      background: radial-gradient(circle at top left, rgba(248,113,113,0.25), rgba(15,23,42,0.95));
-      border-color: rgba(248,113,113,0.5);
+    /* Objective color wrappers (soft around card) */
+    .objective-fundraising {
+      background: linear-gradient(145deg, #fee2e2, #ffffff);
+      border-radius: 10px;
+      padding: 1px;
     }
 
-    .objective-engagement .event-card {
-      background: radial-gradient(circle at top left, rgba(96,165,250,0.25), rgba(15,23,42,0.95));
-      border-color: rgba(59,130,246,0.5);
+    .objective-engagement {
+      background: linear-gradient(145deg, #dbeafe, #ffffff);
+      border-radius: 10px;
+      padding: 1px;
     }
 
-    .objective-thank-you .event-card {
-      background: radial-gradient(circle at top left, rgba(52,211,153,0.25), rgba(15,23,42,0.95));
-      border-color: rgba(52,211,153,0.55);
+    .objective-thank-you {
+      background: linear-gradient(145deg, #dcfce7, #ffffff);
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    /* Audience color wrappers (for card border background if you want) */
+    .aud-mass {
+      background: linear-gradient(145deg, rgba(88, 247, 88, 0.815), #ffffff);
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    .aud-leadership {
+      background: linear-gradient(145deg, rgba(219, 105, 223, 0.9), #ffffff);
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    .aud-monthly {
+      background: linear-gradient(145deg, rgba(52, 116, 255, 0.9), #ffffff);
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    .aud-volunteers {
+      background: linear-gradient(145deg, rgba(220,252,231,0.9), #ffffff);
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    .aud-board {
+      background: linear-gradient(145deg, rgba(254,226,226,0.9), #ffffff);
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    .aud-default {}
+
+    /* Audience pill colors */
+    .aud-mass .event-audience {
+      background: rgba(88, 247, 88, 0.815);
+      color: #ffffff;
+    }
+    .aud-leadership .event-audience {
+      background: rgba(219, 105, 223, 0.9);
+      color: #ffffff;
+    }
+    .aud-monthly .event-audience {
+      background: rgba(52, 116, 255, 0.9);
+      color: #ffffff;
+    }
+    .aud-volunteers .event-audience {
+      background: rgba(220,252,231,0.95);
+      color: #15803d;
+    }
+    .aud-board .event-audience {
+      background: rgba(254,226,226,0.95);
+      color: #b91c1c;
     }
 
     .modal {
@@ -285,18 +349,18 @@
     .modal-backdrop {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.2), rgba(0,0,0,0.85));
-      backdrop-filter: blur(8px);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.08), rgba(15,23,42,0.25));
+      backdrop-filter: blur(6px);
     }
 
     .modal-panel {
       position: relative;
       max-width: 640px;
       width: 92%;
-      background: linear-gradient(145deg, #020617, #111827);
+      background: #ffffff;
       border-radius: 20px;
-      border: 1px solid rgba(55,65,81,0.9);
-      box-shadow: 0 28px 60px rgba(0,0,0,0.7);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 28px 60px rgba(15,23,42,0.18);
       padding: 18px 18px 16px;
       color: var(--text);
       z-index: 1;
@@ -332,7 +396,7 @@
 
     .modal-close {
       border: none;
-      background: rgba(15,23,42,0.9);
+      background: #f9fafb;
       color: var(--text-muted);
       width: 28px;
       height: 28px;
@@ -341,6 +405,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid var(--border-subtle);
     }
 
     .modal-actions {
@@ -356,14 +421,14 @@
       padding: 5px 11px;
       font-size: 0.75rem;
       cursor: pointer;
-      background: rgba(34,197,94,0.12);
-      color: #bbf7d0;
+      background: #dcfce7;
+      color: #15803d;
       border: 1px solid rgba(34,197,94,0.6);
     }
 
     .done-toggle.is-off {
-      background: rgba(148,163,184,0.1);
-      color: #e5e7eb;
+      background: #f9fafb;
+      color: var(--text);
       border-color: rgba(148,163,184,0.7);
     }
 
@@ -378,13 +443,14 @@
     .badge {
       padding: 3px 8px;
       border-radius: 999px;
-      border: 1px solid rgba(55,65,81,0.9);
-      background: rgba(15,23,42,0.9);
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
       color: var(--text-muted);
     }
 
     .badge-accent {
       border-color: rgba(249,115,22,0.9);
+      background: #fff7ed;
       color: var(--accent-soft);
     }
 
@@ -396,9 +462,9 @@
     }
 
     .detail-item {
-      background: rgba(15,23,42,0.9);
+      background: #f9fafb;
       border-radius: 10px;
-      border: 1px solid rgba(31,41,55,0.9);
+      border: 1px solid var(--border-subtle);
       padding: 6px 8px;
     }
 
@@ -423,12 +489,12 @@
       font-weight: 500;
       cursor: pointer;
       background: linear-gradient(135deg, #f97316, #fb923c);
-      color: #111827;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.16);
     }
 
     .primary-btn:hover {
-      box-shadow: 0 14px 28px rgba(0,0,0,0.7);
+      box-shadow: 0 14px 28px rgba(15,23,42,0.2);
     }
 
     .secondary-btn {
@@ -437,12 +503,12 @@
       padding: 5px 10px;
       font-size: 0.75rem;
       cursor: pointer;
-      background: rgba(15,23,42,0.9);
-      color: #e5e7eb;
+      background: #f9fafb;
+      color: var(--text);
     }
 
     .secondary-btn:hover {
-      background: rgba(31,41,55,0.9);
+      background: #e5e7eb;
     }
 
     .danger-btn {
@@ -451,12 +517,12 @@
       padding: 5px 10px;
       font-size: 0.75rem;
       cursor: pointer;
-      background: rgba(248,113,113,0.16);
-      color: #fecaca;
+      background: #fee2e2;
+      color: #b91c1c;
     }
 
     .danger-btn:hover {
-      background: rgba(248,113,113,0.28);
+      background: #fecaca;
     }
 
     .form-grid {
@@ -489,8 +555,8 @@
     .form-field input,
     .form-field textarea {
       border-radius: 10px;
-      border: 1px solid rgba(31,41,55,0.9);
-      background: rgba(15,23,42,0.9);
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
       padding: 6px 8px;
       color: var(--text);
       font-size: 0.8rem;
@@ -500,6 +566,7 @@
     .form-field input:focus,
     .form-field textarea:focus {
       border-color: rgba(249,115,22,0.9);
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.2);
     }
 
     .form-footer {
@@ -724,8 +791,8 @@
     let currentEventSource = null; // "base" or "custom"
     let currentEventIndex = null;  // index into baseRaw/customRawEvents
 
-    let editMode = false;  // are we editing an existing custom event?
-    let editIndex = null;  // which index in customRawEvents is being edited
+    let editMode = false;
+    let editIndex = null;
 
     const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const monthNames = [
@@ -758,9 +825,9 @@
       localStorage.setItem(CUSTOM_KEY, JSON.stringify(customRawEvents));
     }
 
-    // ----- event id -----
+    // ----- event id (now unique per row) -----
     function makeEventId(ev) {
-      return `${ev.date}|${ev.rawTime || ""}|${ev.name || ""}`;
+      return `${ev._source || "x"}|${ev._rawIndex != null ? ev._rawIndex : ""}`;
     }
 
     // ----- time & field helpers -----
@@ -787,22 +854,46 @@
       return e.time || e.Time || e["Time:"] || "";
     }
 
+    function parseDateParts(rawDate) {
+      const s = String(rawDate || "").trim();
+      if (!s) return null;
+
+      // Prefer YYYY-MM-DD
+      const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (m) {
+        const year = parseInt(m[1], 10);
+        const month = parseInt(m[2], 10) - 1;
+        const day = parseInt(m[3], 10);
+        return { year, month, day };
+      }
+
+      const d = new Date(s);
+      if (isNaN(d.getTime())) return null;
+      return {
+        year: d.getFullYear(),
+        month: d.getMonth(),
+        day: d.getDate(),
+      };
+    }
+
     function mapEvent(e) {
       const rawDate = getRawDate(e);
-      const d = new Date(rawDate);
-      if (isNaN(d.getTime())) {
+      const parts = parseDateParts(rawDate);
+      if (!parts) {
         console.warn("Skipping event with invalid date:", rawDate, e);
         return null;
       }
+      const { year, month, day } = parts;
+      const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
       const rawTime = getRawTime(e);
 
       return {
         ...e,
-        date: d.toISOString().slice(0, 10),
-        year: d.getFullYear(),
-        month: d.getMonth(),
-        day: d.getDate(),
+        date: dateStr,
+        year,
+        month,
+        day,
         rawTime,
         timeDisplay: formatTimeDisplay(rawTime),
         objective: e.objective || e["Objective: "] || e["Objective"] || e["Objective:"] || "",
@@ -888,6 +979,20 @@
       audienceFilter.addEventListener("change", renderCalendar);
     }
 
+    function getAudienceKey(audience) {
+      const s = (audience || "").toLowerCase().trim();
+      if (!s) return "default";
+      const first = s.split(/[\s,/+]+/)[0];
+      switch (first) {
+        case "mass": return "mass";
+        case "leadership": return "leadership";
+        case "monthly": return "monthly";
+        case "volunteers": return "volunteers";
+        case "board": return "board";
+        default: return "default";
+      }
+    }
+
     function renderCalendar() {
       calendarGrid.innerHTML = "";
       monthLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
@@ -955,7 +1060,8 @@
         } else {
           for (const ev of eventsForDay) {
             const wrapper = document.createElement("div");
-            wrapper.className = `objective-${ev.objectiveKey || "default"}`;
+            const audKey = getAudienceKey(ev.audience);
+            wrapper.className = `objective-${ev.objectiveKey || "default"} aud-${audKey}`;
 
             const card = document.createElement("div");
             card.className = "event-card";
@@ -1022,7 +1128,6 @@
       const timeStr = ev.timeDisplay ? ` • ${ev.timeDisplay}` : "";
       modalMeta.textContent = dateStr + timeStr;
 
-      // show edit/delete only for custom events
       if (currentEventSource === "custom") {
         modalDeleteBtn.style.display = "inline-flex";
         modalEditBtn.style.display = "inline-flex";
@@ -1097,7 +1202,6 @@
       createForm.reset();
 
       if (raw) {
-        // edit mode
         editMode = true;
         editIndex = index;
         createTitle.textContent = "Edit email send";
@@ -1117,7 +1221,6 @@
         createForm.batch.value = raw.batch || "";
         createForm.status.value = raw.status || "";
       } else {
-        // create mode
         editMode = false;
         editIndex = null;
         createTitle.textContent = "Add email send";
@@ -1270,7 +1373,6 @@
         currentYear = mapped.year;
         currentMonth = mapped.month;
 
-        // extend audience filter if new audience
         if (mapped.audience) {
           let found = false;
           for (const opt of audienceFilter.options) {
