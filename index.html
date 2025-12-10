@@ -236,15 +236,6 @@
       color: #9ca3af;
     }
 
-    .event-chip {
-      font-size: 0.6rem;
-      padding: 2px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      color: #cbd5f5;
-      margin-left: auto;
-    }
-
     .event-card.is-done {
       opacity: 0.45;
       border-style: dashed;
@@ -355,6 +346,7 @@
     .modal-actions {
       display: flex;
       justify-content: flex-end;
+      gap: 6px;
       margin-bottom: 8px;
     }
 
@@ -424,76 +416,103 @@
     }
 
     .primary-btn {
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 7px 14px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  background: linear-gradient(135deg, #f97316, #fb923c);
-  color: #111827;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.6);
-}
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #111827;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+    }
 
-.primary-btn:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.7);
-}
+    .primary-btn:hover {
+      box-shadow: 0 14px 28px rgba(0,0,0,0.7);
+    }
 
-.form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
-}
+    .secondary-btn {
+      border: 1px solid rgba(148,163,184,0.7);
+      border-radius: var(--radius-pill);
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+    }
 
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
+    .secondary-btn:hover {
+      background: rgba(31,41,55,0.9);
+    }
 
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-size: 0.78rem;
-}
+    .danger-btn {
+      border: 1px solid rgba(248,113,113,0.7);
+      border-radius: var(--radius-pill);
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      background: rgba(248,113,113,0.16);
+      color: #fecaca;
+    }
 
-.form-field label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-}
+    .danger-btn:hover {
+      background: rgba(248,113,113,0.28);
+    }
 
-.form-field input,
-.form-field textarea {
-  border-radius: 10px;
-  border: 1px solid rgba(31,41,55,0.9);
-  background: rgba(15,23,42,0.9);
-  padding: 6px 8px;
-  color: var(--text);
-  font-size: 0.8rem;
-  outline: none;
-}
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
 
-.form-field input:focus,
-.form-field textarea:focus {
-  border-color: rgba(249,115,22,0.9);
-}
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
 
-.form-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 6px;
-}
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.78rem;
+    }
 
-@media (max-width: 720px) {
-  .form-row {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
+    .form-field label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
 
+    .form-field input,
+    .form-field textarea {
+      border-radius: 10px;
+      border: 1px solid rgba(31,41,55,0.9);
+      background: rgba(15,23,42,0.9);
+      padding: 6px 8px;
+      color: var(--text);
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: rgba(249,115,22,0.9);
+    }
+
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 720px) {
+      .form-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
 
     @media (min-width: 720px) {
       .detail-grid {
@@ -545,6 +564,7 @@
     </div>
   </div>
 
+  <!-- Event details modal -->
   <div class="modal" id="eventModal" aria-hidden="true">
     <div class="modal-backdrop"></div>
     <div class="modal-panel">
@@ -557,6 +577,8 @@
       </div>
 
       <div class="modal-actions">
+        <button class="secondary-btn" id="modalEditBtn">Edit</button>
+        <button class="danger-btn" id="modalDeleteBtn">Delete</button>
         <button class="done-toggle is-off" id="modalDoneBtn">
           Mark as done
         </button>
@@ -567,101 +589,102 @@
     </div>
   </div>
 
+  <!-- Create / edit event modal -->
   <div class="modal" id="createModal" aria-hidden="true">
-  <div class="modal-backdrop"></div>
-  <div class="modal-panel">
-    <div class="modal-header">
-      <div>
-        <h2 class="modal-title">Add email send</h2>
-        <p class="modal-meta">
-          Create a one-off send just for this calendar. It’s stored locally in this browser.
-        </p>
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="createTitle">Add email send</h2>
+          <p class="modal-meta">
+            Create or edit a one-off send just for this calendar. It’s stored locally in this browser.
+          </p>
+        </div>
+        <button class="modal-close" id="createClose" aria-label="Close">✕</button>
       </div>
-      <button class="modal-close" id="createClose" aria-label="Close">✕</button>
+
+      <form id="createForm" class="form-grid">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="createDate">Date</label>
+            <input type="date" id="createDate" name="date" required />
+          </div>
+          <div class="form-field">
+            <label for="createTime">Time (ET)</label>
+            <input type="time" id="createTime" name="time" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="createName">Name</label>
+          <input type="text" id="createName" name="name" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="createAudience">Audience</label>
+            <input type="text" id="createAudience" name="audience" />
+          </div>
+          <div class="form-field">
+            <label for="createObjective">Objective</label>
+            <input type="text" id="createObjective" name="objective" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="createSegment">Suppression / Segment</label>
+          <input type="text" id="createSegment" name="segment" />
+        </div>
+
+        <div class="form-field">
+          <label for="createKeyTakeaway">Key takeaway</label>
+          <textarea id="createKeyTakeaway" name="key_takeaway" rows="2"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="createSubjectPrompt">Subject prompt</label>
+          <textarea id="createSubjectPrompt" name="subject_prompt" rows="2"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="createKeyMessage">Key message</label>
+          <textarea id="createKeyMessage" name="key_message" rows="2"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="createArtDirection">Art direction</label>
+          <textarea id="createArtDirection" name="art_direction" rows="2"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="createSources">Sources / references</label>
+          <textarea id="createSources" name="sources" rows="2"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="createSender">Sender</label>
+            <input type="text" id="createSender" name="sender" />
+          </div>
+          <div class="form-field">
+            <label for="createBatch">Batch</label>
+            <input type="text" id="createBatch" name="batch" />
+          </div>
+          <div class="form-field">
+            <label for="createStatus">Status</label>
+            <input type="text" id="createStatus" name="status" />
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="primary-btn">Save send</button>
+        </div>
+      </form>
     </div>
-
-    <form id="createForm" class="form-grid">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="createDate">Date</label>
-          <input type="date" id="createDate" name="date" required />
-        </div>
-        <div class="form-field">
-          <label for="createTime">Time (ET)</label>
-          <input type="time" id="createTime" name="time" />
-        </div>
-      </div>
-
-      <div class="form-field">
-        <label for="createName">Name</label>
-        <input type="text" id="createName" name="name" required />
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="createAudience">Audience</label>
-          <input type="text" id="createAudience" name="audience" />
-        </div>
-        <div class="form-field">
-          <label for="createObjective">Objective</label>
-          <input type="text" id="createObjective" name="objective" />
-        </div>
-      </div>
-
-      <div class="form-field">
-        <label for="createSegment">Suppression / Segment</label>
-        <input type="text" id="createSegment" name="segment" />
-      </div>
-
-      <div class="form-field">
-        <label for="createKeyTakeaway">Key takeaway</label>
-        <textarea id="createKeyTakeaway" name="key_takeaway" rows="2"></textarea>
-      </div>
-
-      <div class="form-field">
-        <label for="createSubjectPrompt">Subject prompt</label>
-        <textarea id="createSubjectPrompt" name="subject_prompt" rows="2"></textarea>
-      </div>
-
-      <div class="form-field">
-        <label for="createKeyMessage">Key message</label>
-        <textarea id="createKeyMessage" name="key_message" rows="2"></textarea>
-      </div>
-
-      <div class="form-field">
-        <label for="createArtDirection">Art direction</label>
-        <textarea id="createArtDirection" name="art_direction" rows="2"></textarea>
-      </div>
-
-      <div class="form-field">
-        <label for="createSources">Sources / references</label>
-        <textarea id="createSources" name="sources" rows="2"></textarea>
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="createSender">Sender</label>
-          <input type="text" id="createSender" name="sender" />
-        </div>
-        <div class="form-field">
-          <label for="createBatch">Batch</label>
-          <input type="text" id="createBatch" name="batch" />
-        </div>
-        <div class="form-field">
-          <label for="createStatus">Status</label>
-          <input type="text" id="createStatus" name="status" />
-        </div>
-      </div>
-
-      <div class="form-footer">
-        <button type="submit" class="primary-btn">Save send</button>
-      </div>
-    </form>
   </div>
-</div>
-
 
   <script>
+    // DOM hooks
     const calendarGrid = document.getElementById("calendarGrid");
     const monthLabel = document.getElementById("monthLabel");
     const prevMonthBtn = document.getElementById("prevMonth");
@@ -675,22 +698,34 @@
     const modalDetails = document.getElementById("modalDetails");
     const modalClose = document.getElementById("modalClose");
     const modalDoneBtn = document.getElementById("modalDoneBtn");
+    const modalDeleteBtn = document.getElementById("modalDeleteBtn");
+    const modalEditBtn = document.getElementById("modalEditBtn");
 
+    const addEventBtn = document.getElementById("addEventBtn");
+    const createModal = document.getElementById("createModal");
+    const createClose = document.getElementById("createClose");
+    const createForm = document.getElementById("createForm");
+    const createTitle = document.getElementById("createTitle");
+
+    // Local storage keys
     const STORAGE_KEY = "emailCalendarDone";
+    const CUSTOM_KEY = "emailCalendarCustomRaw";
+
+    // State
     let doneMap = {};
     let currentEventId = null;
-const addEventBtn = document.getElementById("addEventBtn");
-const createModal = document.getElementById("createModal");
-const createClose = document.getElementById("createClose");
-const createForm = document.getElementById("createForm");
 
-const CUSTOM_KEY = "emailCalendarCustomRaw";
-let customRawEvents = [];
-let baseRaw = [];
-
+    let baseRaw = [];
+    let customRawEvents = [];
     let allEvents = [];
     let currentYear;
     let currentMonth; // 0-based
+
+    let currentEventSource = null; // "base" or "custom"
+    let currentEventIndex = null;  // index into baseRaw/customRawEvents
+
+    let editMode = false;  // are we editing an existing custom event?
+    let editIndex = null;  // which index in customRawEvents is being edited
 
     const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const monthNames = [
@@ -698,6 +733,7 @@ let baseRaw = [];
       "July","August","September","October","November","December"
     ];
 
+    // ----- storage helpers -----
     function loadDoneMap() {
       try {
         doneMap = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
@@ -711,23 +747,23 @@ let baseRaw = [];
     }
 
     function loadCustomRaw() {
-  try {
-    customRawEvents = JSON.parse(localStorage.getItem(CUSTOM_KEY) || "[]");
-  } catch {
-    customRawEvents = [];
-  }
-}
+      try {
+        customRawEvents = JSON.parse(localStorage.getItem(CUSTOM_KEY) || "[]");
+      } catch {
+        customRawEvents = [];
+      }
+    }
 
-function saveCustomRaw() {
-  localStorage.setItem(CUSTOM_KEY, JSON.stringify(customRawEvents));
-}
+    function saveCustomRaw() {
+      localStorage.setItem(CUSTOM_KEY, JSON.stringify(customRawEvents));
+    }
 
-
+    // ----- event id -----
     function makeEventId(ev) {
       return `${ev.date}|${ev.rawTime || ""}|${ev.name || ""}`;
     }
 
-    // ---- time + field helpers ----
+    // ----- time & field helpers -----
     function formatTimeDisplay(raw) {
       const s = String(raw || "").trim();
       if (!s || s === "NaN") return "";
@@ -758,25 +794,6 @@ function saveCustomRaw() {
         console.warn("Skipping event with invalid date:", rawDate, e);
         return null;
       }
-      function rebuildAllEvents() {
-  const baseMapped = (baseRaw || []).map((raw, idx) => {
-    const ev = mapEvent(raw);
-    if (!ev) return null;
-    ev._source = "base";
-    ev._rawIndex = idx;
-    return ev;
-  }).filter(Boolean);
-
-  const customMapped = (customRawEvents || []).map((raw, idx) => {
-    const ev = mapEvent(raw);
-    if (!ev) return null;
-    ev._source = "custom";
-    ev._rawIndex = idx;
-    return ev;
-  }).filter(Boolean);
-
-  allEvents = baseMapped.concat(customMapped);
-}
 
       const rawTime = getRawTime(e);
 
@@ -806,17 +823,36 @@ function saveCustomRaw() {
       };
     }
 
-    // ---- load data ----
+    function rebuildAllEvents() {
+      const baseMapped = (baseRaw || []).map((raw, idx) => {
+        const ev = mapEvent(raw);
+        if (!ev) return null;
+        ev._source = "base";
+        ev._rawIndex = idx;
+        return ev;
+      }).filter(Boolean);
+
+      const customMapped = (customRawEvents || []).map((raw, idx) => {
+        const ev = mapEvent(raw);
+        if (!ev) return null;
+        ev._source = "custom";
+        ev._rawIndex = idx;
+        return ev;
+      }).filter(Boolean);
+
+      allEvents = baseMapped.concat(customMapped);
+    }
+
+    // ----- load data -----
     fetch("schedule.json")
-  .then(res => res.json())
-  .catch(() => [])
-  .then(data => {
-    loadCustomRaw();
+      .then(res => res.json())
+      .catch(() => [])
+      .then(data => {
+        baseRaw = data || [];
 
-    const combinedRaw = (data || []).concat(customRawEvents || []);
-    allEvents = combinedRaw.map(mapEvent).filter(Boolean);
-
-    loadDoneMap();
+        loadCustomRaw();
+        rebuildAllEvents();
+        loadDoneMap();
 
         if (allEvents.length) {
           currentYear = allEvents[0].year;
@@ -834,6 +870,7 @@ function saveCustomRaw() {
         console.error("Failed to load schedule.json", err);
       });
 
+    // ----- UI building -----
     function initAudienceFilter() {
       const audiences = Array.from(new Set(
         allEvents
@@ -947,12 +984,7 @@ function saveCustomRaw() {
             audience.className = "event-audience";
             audience.textContent = ev.audience || "";
 
-            const pill = document.createElement("span");
-            pill.className = "event-chip";
-            pill.textContent = ev.objective || "";
-
             metaRow.appendChild(audience);
-            
 
             if (doneMap[id]) {
               const doneBadge = document.createElement("span");
@@ -976,8 +1008,12 @@ function saveCustomRaw() {
       }
     }
 
+    // ----- modals -----
     function openModal(ev, id) {
       currentEventId = id;
+      currentEventSource = ev._source || "base";
+      currentEventIndex = ev._rawIndex;
+
       modalTitle.textContent = ev.name || "(Untitled send)";
 
       const dateObj = new Date(ev.year, ev.month, ev.day);
@@ -986,10 +1022,18 @@ function saveCustomRaw() {
       const timeStr = ev.timeDisplay ? ` • ${ev.timeDisplay}` : "";
       modalMeta.textContent = dateStr + timeStr;
 
+      // show edit/delete only for custom events
+      if (currentEventSource === "custom") {
+        modalDeleteBtn.style.display = "inline-flex";
+        modalEditBtn.style.display = "inline-flex";
+      } else {
+        modalDeleteBtn.style.display = "none";
+        modalEditBtn.style.display = "none";
+      }
+
       modalBadges.innerHTML = "";
       const badges = [];
       if (ev.audience) badges.push({ text: ev.audience, accent: true });
-      if (ev.objective) badges.push({ text: ev.objective, accent: false });
 
       for (const b of badges) {
         const span = document.createElement("span");
@@ -1048,21 +1092,52 @@ function saveCustomRaw() {
       modal.classList.remove("visible");
       modal.setAttribute("aria-hidden", "true");
     }
-    function openCreateModal(prefillDate) {
-  createForm.reset();
-  if (prefillDate) {
-    createForm.date.value = prefillDate;
-  }
-  createModal.classList.add("visible");
-  createModal.setAttribute("aria-hidden", "false");
-}
 
-function closeCreateModal() {
-  createModal.classList.remove("visible");
-  createModal.setAttribute("aria-hidden", "true");
-}
+    function openCreateModal(prefillDate, raw, index) {
+      createForm.reset();
 
+      if (raw) {
+        // edit mode
+        editMode = true;
+        editIndex = index;
+        createTitle.textContent = "Edit email send";
 
+        createForm.date.value = raw.date || "";
+        createForm.time.value = raw.time || "";
+        createForm.name.value = raw.name || "";
+        createForm.audience.value = raw.audience || "";
+        createForm.objective.value = raw.objective || "";
+        createForm.segment.value = raw.segment || "";
+        createForm.key_takeaway.value = raw.key_takeaway || "";
+        createForm.subject_prompt.value = raw.subject_prompt || "";
+        createForm.key_message.value = raw.key_message || "";
+        createForm.art_direction.value = raw.art_direction || "";
+        createForm.sources.value = raw.sources || "";
+        createForm.sender.value = raw.sender || "";
+        createForm.batch.value = raw.batch || "";
+        createForm.status.value = raw.status || "";
+      } else {
+        // create mode
+        editMode = false;
+        editIndex = null;
+        createTitle.textContent = "Add email send";
+        if (prefillDate) {
+          createForm.date.value = prefillDate;
+        }
+      }
+
+      createModal.classList.add("visible");
+      createModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeCreateModal() {
+      createModal.classList.remove("visible");
+      createModal.setAttribute("aria-hidden", "true");
+      editMode = false;
+      editIndex = null;
+    }
+
+    // ----- listeners -----
     modalClose.addEventListener("click", closeModal);
     modal.addEventListener("click", (e) => {
       if (e.target === modal || e.target.classList.contains("modal-backdrop")) {
@@ -1092,8 +1167,25 @@ function closeCreateModal() {
       renderCalendar();
     });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
+    modalDeleteBtn.addEventListener("click", () => {
+      if (currentEventSource !== "custom" || currentEventIndex == null) {
+        return;
+      }
+      if (!confirm("Delete this custom send from your calendar?")) return;
+
+      customRawEvents.splice(currentEventIndex, 1);
+      saveCustomRaw();
+      rebuildAllEvents();
+      closeModal();
+      renderCalendar();
+    });
+
+    modalEditBtn.addEventListener("click", () => {
+      if (currentEventSource !== "custom" || currentEventIndex == null) {
+        return;
+      }
+      const raw = customRawEvents[currentEventIndex];
+      openCreateModal(null, raw, currentEventIndex);
     });
 
     prevMonthBtn.addEventListener("click", () => {
@@ -1113,86 +1205,92 @@ function closeCreateModal() {
       }
       renderCalendar();
     });
+
     addEventBtn.addEventListener("click", () => openCreateModal());
 
-createClose.addEventListener("click", closeCreateModal);
+    createClose.addEventListener("click", closeCreateModal);
 
-createModal.addEventListener("click", (e) => {
-  if (e.target === createModal || e.target.classList.contains("modal-backdrop")) {
-    closeCreateModal();
-  }
-});
+    createModal.addEventListener("click", (e) => {
+      if (e.target === createModal || e.target.classList.contains("modal-backdrop")) {
+        closeCreateModal();
+      }
+    });
 
-// update your Escape key handler to check both modals
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    if (createModal.classList.contains("visible")) {
-      closeCreateModal();
-    } else if (modal.classList.contains("visible")) {
-      closeModal();
-    }
-  }
-});
-createForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const raw = {
-    date: createForm.date.value,
-    time: createForm.time.value,
-    name: createForm.name.value,
-    audience: createForm.audience.value,
-    objective: createForm.objective.value,
-    segment: createForm.segment.value,
-    key_takeaway: createForm.key_takeaway.value,
-    subject_prompt: createForm.subject_prompt.value,
-    key_message: createForm.key_message.value,
-    art_direction: createForm.art_direction.value,
-    sources: createForm.sources.value,
-    sender: createForm.sender.value,
-    batch: createForm.batch.value,
-    status: createForm.status.value,
-  };
-
-  if (!raw.date || !raw.name) {
-    alert("Please set at least a date and a name.");
-    return;
-  }
-
-  // store raw custom event
-  customRawEvents.push(raw);
-  saveCustomRaw();
-
-  const mapped = mapEvent(raw);
-  if (mapped) {
-    allEvents.push(mapped);
-
-    // jump to that month
-    currentYear = mapped.year;
-    currentMonth = mapped.month;
-
-    // add audience to filter if it's new
-    if (mapped.audience) {
-      let found = false;
-      for (const opt of audienceFilter.options) {
-        if (opt.value === mapped.audience) {
-          found = true;
-          break;
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (createModal.classList.contains("visible")) {
+          closeCreateModal();
+        } else if (modal.classList.contains("visible")) {
+          closeModal();
         }
       }
-      if (!found) {
-        const opt = document.createElement("option");
-        opt.value = mapped.audience;
-        opt.textContent = mapped.audience;
-        audienceFilter.appendChild(opt);
+    });
+
+    createForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const raw = {
+        date: createForm.date.value,
+        time: createForm.time.value,
+        name: createForm.name.value,
+        audience: createForm.audience.value,
+        objective: createForm.objective.value,
+        segment: createForm.segment.value,
+        key_takeaway: createForm.key_takeaway.value,
+        subject_prompt: createForm.subject_prompt.value,
+        key_message: createForm.key_message.value,
+        art_direction: createForm.art_direction.value,
+        sources: createForm.sources.value,
+        sender: createForm.sender.value,
+        batch: createForm.batch.value,
+        status: createForm.status.value,
+      };
+
+      if (!raw.date || !raw.name) {
+        alert("Please set at least a date and a name.");
+        return;
       }
-    }
 
-    renderCalendar();
-  }
+      let targetIndex;
+      if (editMode && editIndex != null) {
+        customRawEvents[editIndex] = raw;
+        targetIndex = editIndex;
+      } else {
+        customRawEvents.push(raw);
+        targetIndex = customRawEvents.length - 1;
+      }
 
-  closeCreateModal();
-});
+      saveCustomRaw();
+      rebuildAllEvents();
 
+      const mapped = allEvents.find(
+        ev => ev._source === "custom" && ev._rawIndex === targetIndex
+      );
+      if (mapped) {
+        currentYear = mapped.year;
+        currentMonth = mapped.month;
+
+        // extend audience filter if new audience
+        if (mapped.audience) {
+          let found = false;
+          for (const opt of audienceFilter.options) {
+            if (opt.value === mapped.audience) {
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            const opt = document.createElement("option");
+            opt.value = mapped.audience;
+            opt.textContent = mapped.audience;
+            audienceFilter.appendChild(opt);
+          }
+        }
+      }
+
+      renderCalendar();
+      closeCreateModal();
+    });
   </script>
 </body>
 </html>
