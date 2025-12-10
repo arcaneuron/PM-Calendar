@@ -423,6 +423,78 @@
       word-wrap: break-word;
     }
 
+    .primary-btn {
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #111827;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+}
+
+.primary-btn:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.7);
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.78rem;
+}
+
+.form-field label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.form-field input,
+.form-field textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(31,41,55,0.9);
+  background: rgba(15,23,42,0.9);
+  padding: 6px 8px;
+  color: var(--text);
+  font-size: 0.8rem;
+  outline: none;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: rgba(249,115,22,0.9);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+@media (max-width: 720px) {
+  .form-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
     @media (min-width: 720px) {
       .detail-grid {
         grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
@@ -444,6 +516,7 @@
         <span>Clean view of Date → Time → Name → Audience, with all creative details one click away.</span>
       </div>
       <div class="controls">
+        <button class="primary-btn" id="addEventBtn">+ New send</button>
         <div class="month-switch">
           <button class="month-button" id="prevMonth" aria-label="Previous month">‹</button>
           <div class="month-label" id="monthLabel"></div>
@@ -494,6 +567,100 @@
     </div>
   </div>
 
+  <div class="modal" id="createModal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">Add email send</h2>
+        <p class="modal-meta">
+          Create a one-off send just for this calendar. It’s stored locally in this browser.
+        </p>
+      </div>
+      <button class="modal-close" id="createClose" aria-label="Close">✕</button>
+    </div>
+
+    <form id="createForm" class="form-grid">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="createDate">Date</label>
+          <input type="date" id="createDate" name="date" required />
+        </div>
+        <div class="form-field">
+          <label for="createTime">Time (ET)</label>
+          <input type="time" id="createTime" name="time" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="createName">Name</label>
+        <input type="text" id="createName" name="name" required />
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="createAudience">Audience</label>
+          <input type="text" id="createAudience" name="audience" />
+        </div>
+        <div class="form-field">
+          <label for="createObjective">Objective</label>
+          <input type="text" id="createObjective" name="objective" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="createSegment">Suppression / Segment</label>
+        <input type="text" id="createSegment" name="segment" />
+      </div>
+
+      <div class="form-field">
+        <label for="createKeyTakeaway">Key takeaway</label>
+        <textarea id="createKeyTakeaway" name="key_takeaway" rows="2"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="createSubjectPrompt">Subject prompt</label>
+        <textarea id="createSubjectPrompt" name="subject_prompt" rows="2"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="createKeyMessage">Key message</label>
+        <textarea id="createKeyMessage" name="key_message" rows="2"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="createArtDirection">Art direction</label>
+        <textarea id="createArtDirection" name="art_direction" rows="2"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="createSources">Sources / references</label>
+        <textarea id="createSources" name="sources" rows="2"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="createSender">Sender</label>
+          <input type="text" id="createSender" name="sender" />
+        </div>
+        <div class="form-field">
+          <label for="createBatch">Batch</label>
+          <input type="text" id="createBatch" name="batch" />
+        </div>
+        <div class="form-field">
+          <label for="createStatus">Status</label>
+          <input type="text" id="createStatus" name="status" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" class="primary-btn">Save send</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
   <script>
     const calendarGrid = document.getElementById("calendarGrid");
     const monthLabel = document.getElementById("monthLabel");
@@ -512,6 +679,14 @@
     const STORAGE_KEY = "emailCalendarDone";
     let doneMap = {};
     let currentEventId = null;
+const addEventBtn = document.getElementById("addEventBtn");
+const createModal = document.getElementById("createModal");
+const createClose = document.getElementById("createClose");
+const createForm = document.getElementById("createForm");
+
+const CUSTOM_KEY = "emailCalendarCustomRaw";
+let customRawEvents = [];
+let baseRaw = [];
 
     let allEvents = [];
     let currentYear;
@@ -534,6 +709,19 @@
     function saveDoneMap() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(doneMap));
     }
+
+    function loadCustomRaw() {
+  try {
+    customRawEvents = JSON.parse(localStorage.getItem(CUSTOM_KEY) || "[]");
+  } catch {
+    customRawEvents = [];
+  }
+}
+
+function saveCustomRaw() {
+  localStorage.setItem(CUSTOM_KEY, JSON.stringify(customRawEvents));
+}
+
 
     function makeEventId(ev) {
       return `${ev.date}|${ev.rawTime || ""}|${ev.name || ""}`;
@@ -570,6 +758,26 @@
         console.warn("Skipping event with invalid date:", rawDate, e);
         return null;
       }
+      function rebuildAllEvents() {
+  const baseMapped = (baseRaw || []).map((raw, idx) => {
+    const ev = mapEvent(raw);
+    if (!ev) return null;
+    ev._source = "base";
+    ev._rawIndex = idx;
+    return ev;
+  }).filter(Boolean);
+
+  const customMapped = (customRawEvents || []).map((raw, idx) => {
+    const ev = mapEvent(raw);
+    if (!ev) return null;
+    ev._source = "custom";
+    ev._rawIndex = idx;
+    return ev;
+  }).filter(Boolean);
+
+  allEvents = baseMapped.concat(customMapped);
+}
+
       const rawTime = getRawTime(e);
 
       return {
@@ -600,11 +808,15 @@
 
     // ---- load data ----
     fetch("schedule.json")
-      .then(res => res.json())
-      .then(data => {
-        allEvents = data.map(mapEvent).filter(Boolean);
+  .then(res => res.json())
+  .catch(() => [])
+  .then(data => {
+    loadCustomRaw();
 
-        loadDoneMap();
+    const combinedRaw = (data || []).concat(customRawEvents || []);
+    allEvents = combinedRaw.map(mapEvent).filter(Boolean);
+
+    loadDoneMap();
 
         if (allEvents.length) {
           currentYear = allEvents[0].year;
@@ -836,6 +1048,20 @@
       modal.classList.remove("visible");
       modal.setAttribute("aria-hidden", "true");
     }
+    function openCreateModal(prefillDate) {
+  createForm.reset();
+  if (prefillDate) {
+    createForm.date.value = prefillDate;
+  }
+  createModal.classList.add("visible");
+  createModal.setAttribute("aria-hidden", "false");
+}
+
+function closeCreateModal() {
+  createModal.classList.remove("visible");
+  createModal.setAttribute("aria-hidden", "true");
+}
+
 
     modalClose.addEventListener("click", closeModal);
     modal.addEventListener("click", (e) => {
@@ -887,6 +1113,86 @@
       }
       renderCalendar();
     });
+    addEventBtn.addEventListener("click", () => openCreateModal());
+
+createClose.addEventListener("click", closeCreateModal);
+
+createModal.addEventListener("click", (e) => {
+  if (e.target === createModal || e.target.classList.contains("modal-backdrop")) {
+    closeCreateModal();
+  }
+});
+
+// update your Escape key handler to check both modals
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (createModal.classList.contains("visible")) {
+      closeCreateModal();
+    } else if (modal.classList.contains("visible")) {
+      closeModal();
+    }
+  }
+});
+createForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const raw = {
+    date: createForm.date.value,
+    time: createForm.time.value,
+    name: createForm.name.value,
+    audience: createForm.audience.value,
+    objective: createForm.objective.value,
+    segment: createForm.segment.value,
+    key_takeaway: createForm.key_takeaway.value,
+    subject_prompt: createForm.subject_prompt.value,
+    key_message: createForm.key_message.value,
+    art_direction: createForm.art_direction.value,
+    sources: createForm.sources.value,
+    sender: createForm.sender.value,
+    batch: createForm.batch.value,
+    status: createForm.status.value,
+  };
+
+  if (!raw.date || !raw.name) {
+    alert("Please set at least a date and a name.");
+    return;
+  }
+
+  // store raw custom event
+  customRawEvents.push(raw);
+  saveCustomRaw();
+
+  const mapped = mapEvent(raw);
+  if (mapped) {
+    allEvents.push(mapped);
+
+    // jump to that month
+    currentYear = mapped.year;
+    currentMonth = mapped.month;
+
+    // add audience to filter if it's new
+    if (mapped.audience) {
+      let found = false;
+      for (const opt of audienceFilter.options) {
+        if (opt.value === mapped.audience) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        const opt = document.createElement("option");
+        opt.value = mapped.audience;
+        opt.textContent = mapped.audience;
+        audienceFilter.appendChild(opt);
+      }
+    }
+
+    renderCalendar();
+  }
+
+  closeCreateModal();
+});
+
   </script>
 </body>
 </html>
