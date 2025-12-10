@@ -592,6 +592,69 @@
         min-height: 100px;
       }
     }
+    /* ---- Mobile tweaks ---- */
+@media (max-width: 720px) {
+  body {
+    padding: 10px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .controls {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .title-block h1 {
+    font-size: 1.2rem;
+  }
+
+  .title-block span {
+    font-size: 0.78rem;
+  }
+
+  .calendar-shell {
+    padding: 8px;
+  }
+
+  .day-cell {
+    min-height: 95px;
+    padding: 4px 4px 3px;
+  }
+
+  .event-name {
+    font-size: 0.68rem;
+  }
+
+  .event-time {
+    font-size: 0.64rem;
+  }
+
+  .event-audience {
+    font-size: 0.64rem;
+    padding: 1px 5px;
+  }
+}
+@media (max-width: 480px) {
+  .weekday-row {
+    display: none; /* hide the weekday header row on tiny screens */
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .day-cell {
+    min-height: 110px;
+  }
+}
+
   </style>
 </head>
 <body>
