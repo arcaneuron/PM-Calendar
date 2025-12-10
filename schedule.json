@@ -1,7 +1,7 @@
 [
   {
-    "date":"2025-12-01",
-    "time":"09:00",
+    "date":1764547200000,
+    "time":"09:00:00",
     "name":"Pre-GT (Urgency 1)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -16,8 +16,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-01",
-    "time":"14:00",
+    "date":1764547200000,
+    "time":"14:00:00",
     "name":"Pre-GT (Cyber Monday)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -32,8 +32,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-01",
-    "time":"16:00",
+    "date":1764547200000,
+    "time":"16:00:00",
     "name":"Pre-GT (Urgency 2)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -48,8 +48,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-01",
-    "time":"21:00",
+    "date":1764547200000,
+    "time":"21:00:00",
     "name":"Pre-GT (Urgency 3)",
     "audience":"Mass (High Propensity)",
     "objective":"Fundraising",
@@ -64,8 +64,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-02",
-    "time":"07:00",
+    "date":1764633600000,
+    "time":"07:00:00",
     "name":"Giving Tuesday (Urgency 1)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -80,8 +80,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-02",
-    "time":"10:30",
+    "date":1764633600000,
+    "time":"10:30:00",
     "name":"Giving Tuesday (Children Can't Wait)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -96,8 +96,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-02",
-    "time":"12:00",
+    "date":1764633600000,
+    "time":"12:00:00",
     "name":"Giving Tuesday (Urgency 2)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -112,8 +112,8 @@
     "status":"BRIEFED"
   },
   {
-    "date":"2025-12-02",
-    "time":"15:30",
+    "date":1764633600000,
+    "time":"15:30:00",
     "name":"Giving Tuesday (Items Can't Wait)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -128,8 +128,8 @@
     "status":"BRIEFED "
   },
   {
-    "date":"2025-12-02",
-    "time":"19:00",
+    "date":1764633600000,
+    "time":"19:00:00",
     "name":"Giving Tuesday (Urgency 3)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -144,8 +144,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-02",
-    "time":"21:00",
+    "date":1764633600000,
+    "time":"21:00:00",
     "name":"Giving Tuesday (Urgency 4)",
     "audience":"Mass (High Propensity)",
     "objective":"Fundraising",
@@ -160,8 +160,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-02",
-    "time":"22:00",
+    "date":1764633600000,
+    "time":"22:00:00",
     "name":"Giving Tuesday (Issues Send)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -176,7 +176,7 @@
     "status":"BRIEFED (DUBOSE)"
   },
   {
-    "date":"2025-12-02",
+    "date":1764633600000,
     "time":"STO (Only Email Going to this Group)",
     "name":"Thank You (GT Edition)",
     "audience":"All Donors in the L15D",
@@ -192,8 +192,8 @@
     "status":"BRIEFED (DUBOSE)"
   },
   {
-    "date":"2025-12-02",
-    "time":"23:00",
+    "date":1764633600000,
+    "time":"23:00:00",
     "name":"Giving Tuesday (Urgency 5)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -208,8 +208,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-03",
-    "time":"09:00",
+    "date":1764720000000,
+    "time":"09:00:00",
     "name":"Post Giving Tuesday (K.I.N.D)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -224,8 +224,8 @@
     "status":"BRIEFED (TAG TEAM)"
   },
   {
-    "date":"2025-12-03",
-    "time":"09:00",
+    "date":1764720000000,
+    "time":"09:00:00",
     "name":"Post GT 1 (Urgency Extended)",
     "audience":"Leadership (Non-K.I.N.D. Donors)",
     "objective":"Fundraising",
@@ -240,8 +240,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-03",
-    "time":"09:00",
+    "date":1764720000000,
+    "time":"09:00:00",
     "name":"Post-GT 2",
     "audience":"Mass (Non-K.I.N.D. Donors)",
     "objective":"Fundraising",
@@ -256,8 +256,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-03",
-    "time":"16:00",
+    "date":1764720000000,
+    "time":"16:00:00",
     "name":"Post-GT HP (Urgency Extended)",
     "audience":"Mass (High Propensity)",
     "objective":"Fundraising",
@@ -272,8 +272,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-05",
-    "time":"",
+    "date":1764892800000,
+    "time":null,
     "name":"Impact Wrapped",
     "audience":"Mass",
     "objective":"Engagement",
@@ -288,7 +288,7 @@
     "status":"BRIEFED\n (DUBOSE)"
   },
   {
-    "date":"2025-12-08",
+    "date":1765152000000,
     "time":"STO",
     "name":"KIND 1",
     "audience":"Mass",
@@ -304,7 +304,7 @@
     "status":"BRIEFED\n (DUBOSE)"
   },
   {
-    "date":"2025-12-11",
+    "date":1765411200000,
     "time":"STO",
     "name":"Postcard (Amanda Gorman)",
     "audience":"Mass",
@@ -320,8 +320,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-13",
-    "time":"",
+    "date":1765584000000,
+    "time":null,
     "name":"KIND 2",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -336,7 +336,39 @@
     "status":"BRIEFED \n(DuBose)"
   },
   {
-    "date":"2025-12-19",
+    "date":"12\/15\n Net New Send",
+    "time":"9am STO",
+    "name":"Shopping List Update",
+    "audience":"Mass",
+    "objective":"Fundraising",
+    "segment":null,
+    "key_takeaway":"I should give now, add a donation to UNICEF to my holiday to do list",
+    "subject_prompt":"Add a gift for children to your last minute holiday shopping list--children can't wait",
+    "key_message":"Light tweaks to November send--dial up last minute holiday shopping & urgency. Change match to 5x",
+    "sources":"follow november send with light language edits & swap photos: https:\/\/view.em.unicefusa.org\/?qs=b944696e35476157cc2807743dbcc711671c5367331c988c5699996609c2f48e2f60a4da567ebd7fab04f791b14f1e9bcb656615d319e4250aeb91375bddedf78af7282e1166b656d31c913d310b14f2",
+    "art_direction":"repurpose november shopping list with light edits for seasonality, swap photos: https:\/\/view.em.unicefusa.org\/?qs=b944696e35476157cc2807743dbcc711671c5367331c988c5699996609c2f48e2f60a4da567ebd7fab04f791b14f1e9bcb656615d319e4250aeb91375bddedf78af7282e1166b656d31c913d310b14f2",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":null
+  },
+  {
+    "date":"12\/16\n Net New Send",
+    "time":"STO",
+    "name":"Shopping List Update Resend (12.15 Non Openers)",
+    "audience":"Mass NOR",
+    "objective":"Fundraising",
+    "segment":null,
+    "key_takeaway":"I should give now, add a donation to UNICEF to my holiday to do list",
+    "subject_prompt":"NA-resend",
+    "key_message":"NA--resend",
+    "sources":"follow november send with light language edits: https:\/\/view.em.unicefusa.org\/?qs=b944696e35476157cc2807743dbcc711671c5367331c988c5699996609c2f48e2f60a4da567ebd7fab04f791b14f1e9bcb656615d319e4250aeb91375bddedf78af7282e1166b656d31c913d310b14f2",
+    "art_direction":"repurpose november shopping list with light edits for seasonality: https:\/\/view.em.unicefusa.org\/?qs=b944696e35476157cc2807743dbcc711671c5367331c988c5699996609c2f48e2f60a4da567ebd7fab04f791b14f1e9bcb656615d319e4250aeb91375bddedf78af7282e1166b656d31c913d310b14f2",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":null
+  },
+  {
+    "date":1766102400000,
     "time":"STO",
     "name":"Newsletter",
     "audience":"Mass",
@@ -352,8 +384,40 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-24",
-    "time":"09:00",
+    "date":"12\/22\/2025 (PM NOTE NEW DATE)",
+    "time":"STO",
+    "name":"Extreme Weather \/ Winterization 1",
+    "audience":"Mass",
+    "objective":"Fundraising ",
+    "segment":null,
+    "key_takeaway":"Winter is here  & children can't wait",
+    "subject_prompt":"Let Amanda Gorman show you how your gift helps ensure no child gets left in the cold this winter",
+    "key_message":"Unbox a winterization kit with Amanda Gorman to see how your gift helps deliver essential cold-weather supplies for children in need. Help ensure no child is left in the cold this holiday season.",
+    "sources":"Amanda Gorman Winterization Unboxing Video :30 and more winterization background here",
+    "art_direction":"Amanda Gorman Unboxing Video (Have a few stills and link out to donate--can ask client ifi they are open to creating AG donate page) ",
+    "sender":"ORG",
+    "batch":null,
+    "status":"BRIEFED (DIANA)"
+  },
+  {
+    "date":"12\/23\/2025 (PM NOTE NEW DATE)",
+    "time":"STO",
+    "name":"Extreme Weather \/ Winterization 2",
+    "audience":"Mass",
+    "objective":"Fundraising",
+    "segment":null,
+    "key_takeaway":"I should give the gift of warmth to children in need this Christmas season",
+    "subject_prompt":"This Christmas Eve, help keep children warm",
+    "key_message":"Snow on Christmas sparks nostalgic memories for many of us, but for children in need, we need your help keeping them warm and safe. That's why UNICEF needs your help delivering cold weather aid in places like Afghanistan, Gaza, and Ukraine.",
+    "sources":"https:\/\/www.unicefusa.org\/stories\/help-unicef-deliver-warmth-and-safety-winter (regional details across stories featured here)\ndelivering warmth in ukraine for winter 2025",
+    "art_direction":"Christmas Eve \/ Keep Children Warm",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":"BRIEFED (DIANA)"
+  },
+  {
+    "date":1766534400000,
+    "time":"9a ET STO",
     "name":"EOY Primer [TAX 1]",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -368,8 +432,24 @@
     "status":"BRIEFED \n(Dubose)"
   },
   {
-    "date":"2025-12-27",
-    "time":"09:00",
+    "date":"12\/26\/2025 \n NET NEW SEND",
+    "time":"9a ET STO",
+    "name":"Match Intro",
+    "audience":"Mass",
+    "objective":"Fundraising",
+    "segment":null,
+    "key_takeaway":"I should donate now to maximize my giving this holiday.",
+    "subject_prompt":"5x Match Language--For a limited time, 5x match returns",
+    "key_message":"Baseline: Introduce return of 5x match--before the year is up, help children like Zain",
+    "sources":"Zain in Gaza from story tab",
+    "art_direction":"big graphics, donation amounts, buttons, rather than long narratives or stat graphics.",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":null
+  },
+  {
+    "date":1766793600000,
+    "time":"09:00:00",
     "name":"EOY Match 1.1 (Urgency)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -384,8 +464,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-27",
-    "time":"16:00",
+    "date":1766793600000,
+    "time":"16:00:00",
     "name":"EOY Match 1.2 (Issues) \/ Education",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -400,8 +480,8 @@
     "status":"BRIEFED \n(Dubose)"
   },
   {
-    "date":"2025-12-28",
-    "time":"09:00",
+    "date":1766880000000,
+    "time":"09:00:00",
     "name":"EOY Match 2.1 (LIAM NEESON 1)",
     "audience":"Mass\n",
     "objective":"Fundraising",
@@ -416,8 +496,24 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-29",
-    "time":"09:00",
+    "date":"12\/28\/2025\n (NET NEW EMAIL)",
+    "time":"12:00:00",
+    "name":"Urgency HP Touch 1",
+    "audience":"Mass HP",
+    "objective":"Fundraising",
+    "segment":null,
+    "key_takeaway":"I should give now--time is running out",
+    "subject_prompt":"Children LIke Norpia Need Your Help--5x Match",
+    "key_message":"Time is running out--children are in urgent need and your gift can make a difference",
+    "sources":"Norpia (or similar) from a recent story like this one: https:\/\/www.unicefusa.org\/stories\/measles-cases-are-soaring-globally-heres-what-you-need-know",
+    "art_direction":"big graphics, donation amounts, buttons, rather than long narratives or stat graphics.",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":"BRIEFED (DIANA)"
+  },
+  {
+    "date":1766966400000,
+    "time":"09:00:00",
     "name":"EOY Match 3.1 (TAX MESSAGE)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -432,8 +528,40 @@
     "status":"BRIEFED \n(Dubose)"
   },
   {
-    "date":"2025-12-29",
-    "time":"19:00",
+    "date":"12\/29\/2025\n (NET NEW EMAIL)",
+    "time":"12:00:00",
+    "name":"Urgency HP Touch 2",
+    "audience":"Mass HP",
+    "objective":"Fundraising",
+    "segment":null,
+    "key_takeaway":"I should give now--time is running out",
+    "subject_prompt":"Give Warmth--5x Match if You Act Now",
+    "key_message":"Time is running out--children are in urgent need and your gift can make a difference",
+    "sources":"winterization issues like those outlined here: https:\/\/www.unicefusa.org\/stories\/unicef-delivers-warmth-children-ukraine",
+    "art_direction":"big graphics, donation amounts, buttons, rather than long narratives or stat graphics.",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":"BRIEFED (DIANA)"
+  },
+  {
+    "date":"12\/29\/2025\n (RESEND ADDED)",
+    "time":"17:00:00",
+    "name":"TAX MESSAGE RESEND",
+    "audience":"Mass NOR",
+    "objective":"Fundraising",
+    "segment":"L30D \/ L15D Donors \/ Today Donors",
+    "key_takeaway":"A donation to UNICEF before the end of the year doesn't just benefit children, it may help me more as well.",
+    "subject_prompt":"Year End Giving Matters - Find Out Why",
+    "key_message":"There are lots of ways to give to support UNICEF and doing it before the end of the year may have additional benefits (Tax Benefit + Ways To Give)",
+    "sources":"https:\/\/www.unicefusa.org\/how-help\/donate\/end-of-year-giving",
+    "art_direction":"Dialling in on the middle bit of the article. Shorter than primer mirroring what a lot of other sends at this time are doing (shortening)",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":null
+  },
+  {
+    "date":1766966400000,
+    "time":"19:00:00",
     "name":"Urgency HP Touch 3",
     "audience":"Mass HP\n",
     "objective":"Fundraising",
@@ -448,8 +576,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-30",
-    "time":"07:00",
+    "date":1767052800000,
+    "time":"07:00:00",
     "name":"EOY Match 4.1 (URGENCY)",
     "audience":"Mass",
     "objective":null,
@@ -464,8 +592,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-30",
-    "time":"10:00",
+    "date":1767052800000,
+    "time":"10:00:00",
     "name":"EOY Match 4.2 (NEW YEAR EMOTIONAL MESSAGE)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -480,8 +608,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-30",
-    "time":"12:00",
+    "date":1767052800000,
+    "time":"12:00:00",
     "name":"EOY Match 4.3 (Issues) (Gaza)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -496,8 +624,8 @@
     "status":"BRIEFED\n(Dubose)"
   },
   {
-    "date":"2025-12-30",
-    "time":"14:00",
+    "date":1767052800000,
+    "time":"14:00:00",
     "name":"Urgency HP Touch 4",
     "audience":"Mass HP\n",
     "objective":"Fundraising",
@@ -512,8 +640,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-30",
-    "time":"17:00",
+    "date":1767052800000,
+    "time":"17:00:00",
     "name":"EOY Match 4.4 (ISSUES) (Nutrition)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -528,8 +656,24 @@
     "status":"BRIEFED\n(Dubose)"
   },
   {
-    "date":"2025-12-30",
-    "time":"22:00",
+    "date":"12\/30\/2025\n (New NOR Resend)",
+    "time":"19:00:00",
+    "name":"Resend: 12\/30 Urgency Email from 7 AM",
+    "audience":"Mass NOR",
+    "objective":"Fundraising",
+    "segment":"L30D \/ L15D Donors \/ Today Donors",
+    "key_takeaway":"I shouldn't wait for the New Year--I should give now",
+    "subject_prompt":"Children Everywhere Like XX Can't Wait (2 Days Left of 5x Match)",
+    "key_message":"Children this year have experienced incredible hardships--donate now for a 5x match to ensure a brighter 2026 (focus on story of 1 child to help drive emotinoal connection)",
+    "sources":"Mirror Giving Tuesday Urgency Touchpoint 2\n Giving Tuesday WIP Emails",
+    "art_direction":"Mirror Giving Tuesday Touchpoint 2, begin to slightly dial up urgency",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":null
+  },
+  {
+    "date":1767052800000,
+    "time":"22:00:00",
     "name":"EOY Match 4.5 (URGENCY)",
     "audience":"Mass (High Propensity)",
     "objective":"Fundraising",
@@ -544,8 +688,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"07:00",
+    "date":1767139200000,
+    "time":"07:00:00",
     "name":"EOY Match 5.1 (URGENCY)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -560,8 +704,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"09:00",
+    "date":1767139200000,
+    "time":"09:00:00",
     "name":"EOY Match 5.2 (ISSUES) (Winterization)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -576,8 +720,8 @@
     "status":"BRIEFED\n(Dubose)"
   },
   {
-    "date":"2025-12-31",
-    "time":"12:00",
+    "date":1767139200000,
+    "time":"12:00:00",
     "name":"EOY Match 5.3 (URGENCY)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -592,8 +736,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"14:00",
+    "date":1767139200000,
+    "time":"14:00:00",
     "name":"EOY Match 5.4 (LIAM NEESON)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -608,8 +752,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"15:00",
+    "date":1767139200000,
+    "time":"15:00:00",
     "name":"Urgency HP Touch 5",
     "audience":"Mass HP\n",
     "objective":"Fundraising",
@@ -624,8 +768,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"17:30",
+    "date":1767139200000,
+    "time":"17:30:00",
     "name":"EOY Match 5.5 (NEW YEAR EMOTIONAL MESSAGE)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -640,8 +784,24 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"20:30",
+    "date":"12\/31\/2025\n (new NOR Resend)",
+    "time":"19:00:00",
+    "name":"EOY Urgency NOR Resend 7 Am Email",
+    "audience":"Mass NOR",
+    "objective":"Fundraising",
+    "segment":"L30D \/ L15D Donors \/ Today Donors",
+    "key_takeaway":"I shouldn't wait for the New Year--I should give now",
+    "subject_prompt":"Highlight 5x match--for today only\/just one more day, your donation could go five times as far.",
+    "key_message":"Today, your gift means 5x more of what children need most: nutrition, vaccination, education. The clock is ticking; don't wait until midnight to give.",
+    "sources":"Mirror Giving Tuesday Urgency Touchpoint 4\n Giving Tuesday WIP Emails",
+    "art_direction":"Narrative appeal--100 words, longer form story telling, incorporate countdown clock",
+    "sender":"UNICEF USA",
+    "batch":null,
+    "status":null
+  },
+  {
+    "date":1767139200000,
+    "time":"20:30:00",
     "name":"EOY Match 5.6 (URGENCY)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -656,8 +816,8 @@
     "status":"BRIEFED (DIANA)"
   },
   {
-    "date":"2025-12-31",
-    "time":"22:00",
+    "date":1767139200000,
+    "time":"22:00:00",
     "name":"EOY Match 5.7 (ISSUES) (Education)",
     "audience":"Mass",
     "objective":"Fundraising",
@@ -672,8 +832,8 @@
     "status":"BRIEFED\n(Dubose)"
   },
   {
-    "date":"2025-12-31",
-    "time":"23:00",
+    "date":1767139200000,
+    "time":"23:00:00",
     "name":"EOY Match 5.8 (URGENCY)",
     "audience":"Mass (High Propensity)",
     "objective":"Fundraising",
@@ -684,6 +844,22 @@
     "sources":"Mirror Giving Tuesday Urgency Touchpoint 5\nGiving Tuesday WIP Emails",
     "art_direction":"Ultimate urgency--mirror last hours of Giving Tuesday, highly visual, lots of red",
     "sender":"UNICEF USA",
+    "batch":null,
+    "status":"BRIEFED (DIANA)"
+  },
+  {
+    "date":"12\/31\/2025\n (NET NEW EMAIL)",
+    "time":"STO (Only Email Going to this Group)",
+    "name":"Thank You (EOY Edition)",
+    "audience":"All Donors in the L15D",
+    "objective":"Thank You",
+    "segment":"Non Donors in the L15D",
+    "key_takeaway":"Having donated recently, UNICEF USA recognizes that I've participated in supporting them early and in the spirit of times like right now--End of Year gifting season",
+    "subject_prompt":"At the end of 2025, We Want to Thank You!",
+    "key_message":"Highlight, simlar to the Thanksgiving thanks email and GT thank you email that recent donors have acted in the spirit of the season already. Include a potential written note and 1-2 examples of recent work a donation like theirs supports\nGiving Tuesday Thank You Email",
+    "sources":"Note + Recent Work",
+    "art_direction":"Note + Examples. Small donation button at end with no real emphasis",
+    "sender":"Senior Person (Note Author) @ UNICEF USA",
     "batch":null,
     "status":"BRIEFED (DIANA)"
   }
