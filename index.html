@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Email Calendar Planner</title>
+  <title>Email Send Calendar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -17,7 +17,6 @@
       --text-muted: #9ca3af;
       --shadow-soft: 0 18px 45px rgba(0,0,0,0.5);
       --radius-lg: 18px;
-      --radius-md: 12px;
       --radius-pill: 999px;
     }
 
@@ -30,7 +29,6 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
       padding: 16px;
     }
 
@@ -115,8 +113,6 @@
       font-size: inherit;
       outline: none;
     }
-
-    /* Calendar layout */
 
     .calendar-shell {
       background: rgba(15,23,42,0.95);
@@ -212,11 +208,11 @@
       gap: 1px;
       font-size: 0.7rem;
       text-align: left;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
     }
 
     .event-card:hover {
-      transform: translateY(-1px) translateZ(0);
+      transform: translateY(-1px);
       box-shadow: 0 10px 24px rgba(0,0,0,0.6);
       border-color: rgba(249,115,22,0.9);
     }
@@ -249,7 +245,19 @@
       margin-left: auto;
     }
 
-    /* Slight color accents by objective */
+    .event-card.is-done {
+      opacity: 0.45;
+      border-style: dashed;
+    }
+
+    .event-done-badge {
+      font-size: 0.62rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(34,197,94,0.7);
+      color: #bbf7d0;
+      margin-left: auto;
+    }
 
     .objective-fundraising .event-card {
       background: radial-gradient(circle at top left, rgba(248,113,113,0.25), rgba(15,23,42,0.95));
@@ -266,53 +274,50 @@
       border-color: rgba(52,211,153,0.55);
     }
 
-    /* Modal */
-
     .modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.18s ease-out;
-}
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease-out;
+    }
 
-.modal.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
+    .modal.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-.modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top, rgba(15,23,42,0.2), rgba(0,0,0,0.85));
-  backdrop-filter: blur(8px);
-}
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.2), rgba(0,0,0,0.85));
+      backdrop-filter: blur(8px);
+    }
 
-.modal-panel {
-  position: relative;
-  max-width: 640px;
-  width: 92%;
-  background: linear-gradient(145deg, #020617, #111827);
-  border-radius: 20px;
-  border: 1px solid rgba(55,65,81,0.9);
-  box-shadow: 0 28px 60px rgba(0,0,0,0.7);
-  padding: 18px 18px 16px;
-  color: var(--text);
-  z-index: 1;
-  transform: translateY(12px) scale(0.98);
-  opacity: 0;
-  transition: transform 0.18s ease-out, opacity 0.18s ease-out;
-}
+    .modal-panel {
+      position: relative;
+      max-width: 640px;
+      width: 92%;
+      background: linear-gradient(145deg, #020617, #111827);
+      border-radius: 20px;
+      border: 1px solid rgba(55,65,81,0.9);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.7);
+      padding: 18px 18px 16px;
+      color: var(--text);
+      z-index: 1;
+      transform: translateY(12px) scale(0.98);
+      opacity: 0;
+      transition: transform 0.18s ease-out, opacity 0.18s ease-out;
+    }
 
-.modal.visible .modal-panel {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
+    .modal.visible .modal-panel {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
 
     .modal-header {
       display: flex;
@@ -321,44 +326,6 @@
       gap: 12px;
       margin-bottom: 8px;
     }
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 8px;
-}
-
-.done-toggle {
-  border: none;
-  border-radius: 999px;
-  padding: 5px 11px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  background: rgba(34,197,94,0.12);
-  color: #bbf7d0;
-  border: 1px solid rgba(34,197,94,0.6);
-}
-
-.done-toggle.is-off {
-  background: rgba(148,163,184,0.1);
-  color: #e5e7eb;
-  border-color: rgba(148,163,184,0.7);
-}
-
-.event-card.is-done {
-  opacity: 0.45;
-  border-style: dashed;
-}
-
-.event-done-badge {
-  font-size: 0.62rem;
-  padding: 1px 6px;
-  border-radius: 999px;
-  border: 1px solid rgba(34,197,94,0.7);
-  color: #bbf7d0;
-  margin-left: auto;
-}
-
 
     .modal-title {
       margin: 0;
@@ -383,6 +350,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+
+    .done-toggle {
+      border: none;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      background: rgba(34,197,94,0.12);
+      color: #bbf7d0;
+      border: 1px solid rgba(34,197,94,0.6);
+    }
+
+    .done-toggle.is-off {
+      background: rgba(148,163,184,0.1);
+      color: #e5e7eb;
+      border-color: rgba(148,163,184,0.7);
     }
 
     .modal-badges {
@@ -482,7 +472,6 @@
     </div>
   </div>
 
-  <!-- Modal -->
   <div class="modal" id="eventModal" aria-hidden="true">
     <div class="modal-backdrop"></div>
     <div class="modal-panel">
@@ -494,47 +483,23 @@
         <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
       </div>
 
-<div class="modal-actions">
-  <button class="done-toggle is-off" id="modalDoneBtn">
-    Mark as done
-  </button>
-</div>
-
+      <div class="modal-actions">
+        <button class="done-toggle is-off" id="modalDoneBtn">
+          Mark as done
+        </button>
+      </div>
 
       <div class="modal-badges" id="modalBadges"></div>
-
       <div class="detail-grid" id="modalDetails"></div>
     </div>
   </div>
 
   <script>
     const calendarGrid = document.getElementById("calendarGrid");
-const STORAGE_KEY = "emailCalendarDone";
-let doneMap = {};
-let currentEventId = null;
-
-function loadDoneMap() {
-  try {
-    doneMap = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-  } catch {
-    doneMap = {};
-  }
-}
-
-function saveDoneMap() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(doneMap));
-}
-
-function makeEventId(ev) {
-  return `${ev.date}|${ev.timeDisplay || ""}|${ev.name || ""}`;
-}
-
     const monthLabel = document.getElementById("monthLabel");
     const prevMonthBtn = document.getElementById("prevMonth");
     const nextMonthBtn = document.getElementById("nextMonth");
     const audienceFilter = document.getElementById("audienceFilter");
-const modalDoneBtn = document.getElementById("modalDoneBtn");
-
 
     const modal = document.getElementById("eventModal");
     const modalTitle = document.getElementById("modalTitle");
@@ -542,6 +507,11 @@ const modalDoneBtn = document.getElementById("modalDoneBtn");
     const modalBadges = document.getElementById("modalBadges");
     const modalDetails = document.getElementById("modalDetails");
     const modalClose = document.getElementById("modalClose");
+    const modalDoneBtn = document.getElementById("modalDoneBtn");
+
+    const STORAGE_KEY = "emailCalendarDone";
+    let doneMap = {};
+    let currentEventId = null;
 
     let allEvents = [];
     let currentYear;
@@ -552,6 +522,22 @@ const modalDoneBtn = document.getElementById("modalDoneBtn");
       "January","February","March","April","May","June",
       "July","August","September","October","November","December"
     ];
+
+    function loadDoneMap() {
+      try {
+        doneMap = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch {
+        doneMap = {};
+      }
+    }
+
+    function saveDoneMap() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(doneMap));
+    }
+
+    function makeEventId(ev) {
+      return `${ev.date}|${ev.timeDisplay || ""}|${ev.name || ""}`;
+    }
 
     // Load data
     fetch("schedule.json")
@@ -568,9 +554,9 @@ const modalDoneBtn = document.getElementById("modalDoneBtn");
             objectiveKey: (e.objective || "").toLowerCase().trim().replace(/\s+/g, "-"),
           };
         });
-loadDoneMap();
 
-        // default month = month of first event
+        loadDoneMap();
+
         if (allEvents.length) {
           currentYear = allEvents[0].year;
           currentMonth = allEvents[0].month;
@@ -609,11 +595,10 @@ loadDoneMap();
       monthLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
 
       const firstOfMonth = new Date(currentYear, currentMonth, 1);
-      const startWeekday = firstOfMonth.getDay(); // 0=Sun
+      const startWeekday = firstOfMonth.getDay();
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       const today = new Date();
 
-      // Filter events for this month
       const activeAudience = audienceFilter.value;
       const monthEvents = allEvents.filter(e =>
         e.year === currentYear &&
@@ -621,7 +606,6 @@ loadDoneMap();
         (!activeAudience || e.audience === activeAudience)
       );
 
-      // Group by day
       const byDay = {};
       for (const ev of monthEvents) {
         if (!byDay[ev.day]) byDay[ev.day] = [];
@@ -631,13 +615,11 @@ loadDoneMap();
         byDay[d].sort((a, b) => (a.time || "").localeCompare(b.time || ""));
       }
 
-      // Leading blanks
       for (let i = 0; i < startWeekday; i++) {
         const empty = document.createElement("div");
         calendarGrid.appendChild(empty);
       }
 
-      // Days
       for (let day = 1; day <= daysInMonth; day++) {
         const cell = document.createElement("div");
         const todaysCell =
@@ -674,59 +656,59 @@ loadDoneMap();
           eventsContainer.appendChild(emptyMsg);
         } else {
           for (const ev of eventsForDay) {
-  const wrapper = document.createElement("div");
-  wrapper.className = `objective-${ev.objectiveKey || "default"}`;
+            const wrapper = document.createElement("div");
+            wrapper.className = `objective-${ev.objectiveKey || "default"}`;
 
-  const card = document.createElement("div");
-  card.className = "event-card";
+            const card = document.createElement("div");
+            card.className = "event-card";
 
-  const id = makeEventId(ev);
-  card.dataset.eventId = id;
-  if (doneMap[id]) {
-    card.classList.add("is-done");
-  }
+            const id = makeEventId(ev);
+            card.dataset.eventId = id;
+            if (doneMap[id]) {
+              card.classList.add("is-done");
+            }
 
-  const time = document.createElement("div");
-  time.className = "event-time";
-  time.textContent = ev.timeDisplay || "All day";
+            const time = document.createElement("div");
+            time.className = "event-time";
+            time.textContent = ev.timeDisplay || "All day";
 
-  const name = document.createElement("div");
-  name.className = "event-name";
-  name.textContent = ev.name || "(Untitled send)";
+            const name = document.createElement("div");
+            name.className = "event-name";
+            name.textContent = ev.name || "(Untitled send)";
 
-  const metaRow = document.createElement("div");
-  metaRow.style.display = "flex";
-  metaRow.style.alignItems = "center";
-  metaRow.style.gap = "6px";
-  metaRow.style.marginTop = "1px";
+            const metaRow = document.createElement("div");
+            metaRow.style.display = "flex";
+            metaRow.style.alignItems = "center";
+            metaRow.style.gap = "6px";
+            metaRow.style.marginTop = "1px";
 
-  const audience = document.createElement("div");
-  audience.className = "event-audience";
-  audience.textContent = ev.audience || "";
+            const audience = document.createElement("div");
+            audience.className = "event-audience";
+            audience.textContent = ev.audience || "";
 
-  const pill = document.createElement("span");
-  pill.className = "event-chip";
-  pill.textContent = ev.objective || "";
+            const pill = document.createElement("span");
+            pill.className = "event-chip";
+            pill.textContent = ev.objective || "";
 
-  metaRow.appendChild(audience);
-  if (ev.objective) metaRow.appendChild(pill);
+            metaRow.appendChild(audience);
+            if (ev.objective) metaRow.appendChild(pill);
 
-  if (doneMap[id]) {
-    const doneBadge = document.createElement("span");
-    doneBadge.className = "event-done-badge";
-    doneBadge.textContent = "Done";
-    metaRow.appendChild(doneBadge);
-  }
+            if (doneMap[id]) {
+              const doneBadge = document.createElement("span");
+              doneBadge.className = "event-done-badge";
+              doneBadge.textContent = "Done";
+              metaRow.appendChild(doneBadge);
+            }
 
-  card.appendChild(time);
-  card.appendChild(name);
-  card.appendChild(metaRow);
+            card.appendChild(time);
+            card.appendChild(name);
+            card.appendChild(metaRow);
 
-  card.addEventListener("click", () => openModal(ev, id));
-  wrapper.appendChild(card);
-  eventsContainer.appendChild(wrapper);
-}
-
+            card.addEventListener("click", () => openModal(ev, id));
+            wrapper.appendChild(card);
+            eventsContainer.appendChild(wrapper);
+          }
+        }
 
         cell.appendChild(eventsContainer);
         calendarGrid.appendChild(cell);
@@ -734,74 +716,70 @@ loadDoneMap();
     }
 
     function openModal(ev, id) {
-  currentEventId = id;
-  modalTitle.textContent = ev.name || "(Untitled send)";
+      currentEventId = id;
+      modalTitle.textContent = ev.name || "(Untitled send)";
 
-  const dateObj = new Date(ev.year, ev.month, ev.day);
-  const weekDay = weekdayNames[dateObj.getDay()];
-  const dateStr = `${weekDay}, ${monthNames[ev.month]} ${ev.day}, ${ev.year}`;
-  const timeStr = ev.timeDisplay ? ` • ${ev.timeDisplay}` : "";
-  modalMeta.textContent = dateStr + timeStr;
+      const dateObj = new Date(ev.year, ev.month, ev.day);
+      const weekDay = weekdayNames[dateObj.getDay()];
+      const dateStr = `${weekDay}, ${monthNames[ev.month]} ${ev.day}, ${ev.year}`;
+      const timeStr = ev.timeDisplay ? ` • ${ev.timeDisplay}` : "";
+      modalMeta.textContent = dateStr + timeStr;
 
-  // badges
-  modalBadges.innerHTML = "";
-  const badges = [];
-  if (ev.audience) badges.push({ text: ev.audience, accent: true });
-  if (ev.objective) badges.push({ text: ev.objective, accent: false });
-  if (ev.segment) badges.push({ text: ev.segment, accent: false });
-  if (ev.sender) badges.push({ text: ev.sender, accent: false });
-  if (ev.batch) badges.push({ text: ev.batch, accent: false });
-  if (ev.status) badges.push({ text: ev.status, accent: false });
+      modalBadges.innerHTML = "";
+      const badges = [];
+      if (ev.audience) badges.push({ text: ev.audience, accent: true });
+      if (ev.objective) badges.push({ text: ev.objective, accent: false });
+      if (ev.segment) badges.push({ text: ev.segment, accent: false });
+      if (ev.sender) badges.push({ text: ev.sender, accent: false });
+      if (ev.batch) badges.push({ text: ev.batch, accent: false });
+      if (ev.status) badges.push({ text: ev.status, accent: false });
 
-  for (const b of badges) {
-    const span = document.createElement("span");
-    span.className = "badge" + (b.accent ? " badge-accent" : "");
-    span.textContent = b.text;
-    modalBadges.appendChild(span);
-  }
+      for (const b of badges) {
+        const span = document.createElement("span");
+        span.className = "badge" + (b.accent ? " badge-accent" : "");
+        span.textContent = b.text;
+        modalBadges.appendChild(span);
+      }
 
-  // details
-  const detailFields = [
-    ["Key takeaway", ev.key_takeaway],
-    ["Subject prompt", ev.subject_prompt],
-    ["Key message", ev.key_message],
-    ["Art direction", ev.art_direction],
-    ["Sources / references", ev.sources],
-  ];
+      const detailFields = [
+        ["Key takeaway", ev.key_takeaway],
+        ["Subject prompt", ev.subject_prompt],
+        ["Key message", ev.key_message],
+        ["Art direction", ev.art_direction],
+        ["Sources / references", ev.sources],
+      ];
 
-  modalDetails.innerHTML = "";
-  for (const [label, value] of detailFields) {
-    if (!value) continue;
-    const item = document.createElement("div");
-    item.className = "detail-item";
+      modalDetails.innerHTML = "";
+      for (const [label, value] of detailFields) {
+        if (!value) continue;
+        const item = document.createElement("div");
+        item.className = "detail-item";
 
-    const lbl = document.createElement("div");
-    lbl.className = "detail-label";
-    lbl.textContent = label;
+        const lbl = document.createElement("div");
+        lbl.className = "detail-label";
+        lbl.textContent = label;
 
-    const val = document.createElement("div");
-    val.className = "detail-value";
-    val.textContent = value;
+        const val = document.createElement("div");
+        val.className = "detail-value";
+        val.textContent = value;
 
-    item.appendChild(lbl);
-    item.appendChild(val);
-    modalDetails.appendChild(item);
-  }
+        item.appendChild(lbl);
+        item.appendChild(val);
+        modalDetails.appendChild(item);
+      }
 
-  // set done button state
-  const isDone = !!doneMap[id];
-  if (isDone) {
-    modalDoneBtn.textContent = "Mark as not done";
-    modalDoneBtn.classList.remove("is-off");
-  } else {
-    modalDoneBtn.textContent = "Mark as done";
-    modalDoneBtn.classList.add("is-off");
-  }
+      const isDone = !!doneMap[id];
+      if (isDone) {
+        modalDoneBtn.textContent = "Mark as not done";
+        modalDoneBtn.classList.remove("is-off");
+      } else {
+        modalDoneBtn.textContent = "Mark as done";
+        modalDoneBtn.classList.add("is-off");
+      }
 
-  modal.classList.add("visible");
-  modal.setAttribute("aria-hidden", "false");
-}
-
+      modal.classList.add("visible");
+      modal.setAttribute("aria-hidden", "false");
+    }
 
     function closeModal() {
       modal.classList.remove("visible");
@@ -815,30 +793,27 @@ loadDoneMap();
       }
     });
 
-modalDoneBtn.addEventListener("click", () => {
-  if (!currentEventId) return;
+    modalDoneBtn.addEventListener("click", () => {
+      if (!currentEventId) return;
 
-  if (doneMap[currentEventId]) {
-    delete doneMap[currentEventId];
-  } else {
-    doneMap[currentEventId] = true;
-  }
-  saveDoneMap();
+      if (doneMap[currentEventId]) {
+        delete doneMap[currentEventId];
+      } else {
+        doneMap[currentEventId] = true;
+      }
+      saveDoneMap();
 
-  // update button label
-  const isDoneNow = !!doneMap[currentEventId];
-  if (isDoneNow) {
-    modalDoneBtn.textContent = "Mark as not done";
-    modalDoneBtn.classList.remove("is-off");
-  } else {
-    modalDoneBtn.textContent = "Mark as done";
-    modalDoneBtn.classList.add("is-off");
-  }
+      const isDoneNow = !!doneMap[currentEventId];
+      if (isDoneNow) {
+        modalDoneBtn.textContent = "Mark as not done";
+        modalDoneBtn.classList.remove("is-off");
+      } else {
+        modalDoneBtn.textContent = "Mark as done";
+        modalDoneBtn.classList.add("is-off");
+      }
 
-  // refresh cards so they show Done badge / greyed out style
-  renderCalendar();
-});
-
+      renderCalendar();
+    });
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModal();
