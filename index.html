@@ -44,6 +44,7 @@
       align-items: center;
       margin-bottom: 14px;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .title-block {
@@ -67,6 +68,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .month-switch {
@@ -255,7 +258,7 @@
       background: #dcfce7;
     }
 
-    /* Objective color wrappers (soft around card) */
+/* Objective wrappers */
     .objective-fundraising {
       background: linear-gradient(145deg, #fee2e2, #ffffff);
       border-radius: 10px;
@@ -592,69 +595,6 @@
         min-height: 100px;
       }
     }
-    /* ---- Mobile tweaks ---- */
-@media (max-width: 720px) {
-  body {
-    padding: 10px;
-  }
-
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .controls {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .title-block h1 {
-    font-size: 1.2rem;
-  }
-
-  .title-block span {
-    font-size: 0.78rem;
-  }
-
-  .calendar-shell {
-    padding: 8px;
-  }
-
-  .day-cell {
-    min-height: 95px;
-    padding: 4px 4px 3px;
-  }
-
-  .event-name {
-    font-size: 0.68rem;
-  }
-
-  .event-time {
-    font-size: 0.64rem;
-  }
-
-  .event-audience {
-    font-size: 0.64rem;
-    padding: 1px 5px;
-  }
-}
-@media (max-width: 480px) {
-  .weekday-row {
-    display: none; /* hide the weekday header row on tiny screens */
-  }
-
-  .calendar-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .day-cell {
-    min-height: 110px;
-  }
-}
-
   </style>
 </head>
 <body>
@@ -666,17 +606,22 @@
       </div>
       <div class="controls">
         <button class="primary-btn" id="addEventBtn">+ New send</button>
+
         <div class="month-switch">
           <button class="month-button" id="prevMonth" aria-label="Previous month">‹</button>
           <div class="month-label" id="monthLabel"></div>
           <button class="month-button" id="nextMonth" aria-label="Next month">›</button>
         </div>
+
         <div class="pill-filter">
           Audience
           <select id="audienceFilter">
             <option value="">All</option>
           </select>
         </div>
+
+        <button class="secondary-btn" id="loginBtn">Editor login</button>
+        <button class="secondary-btn" id="logoutBtn" style="display:none;">Logout</button>
       </div>
     </header>
 
@@ -814,6 +759,11 @@
   </div>
 
   <script>
+    // ---- CONFIG: editor password ----
+    // Change this to whatever you want
+    const EDIT_PASSWORD = "changeme123";
+    const EDITOR_FLAG_KEY = "emailCalendarEditor";
+
     // DOM hooks
     const calendarGrid = document.getElementById("calendarGrid");
     const monthLabel = document.getElementById("monthLabel");
@@ -837,9 +787,14 @@
     const createForm = document.getElementById("createForm");
     const createTitle = document.getElementById("createTitle");
 
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
     // Local storage keys
     const STORAGE_KEY = "emailCalendarDone";
     const CUSTOM_KEY = "emailCalendarCustomRaw";
+    const BASE_OVERRIDE_KEY = "emailCalendarBaseOverrides";
+    const BASE_DELETED_KEY = "emailCalendarBaseDeleted";
 
     // State
     let doneMap = {};
@@ -847,6 +802,9 @@
 
     let baseRaw = [];
     let customRawEvents = [];
+    let baseOverrides = {}; // index -> raw override
+    let baseDeleted = {};   // index -> true
+
     let allEvents = [];
     let currentYear;
     let currentMonth; // 0-based
@@ -856,12 +814,40 @@
 
     let editMode = false;
     let editIndex = null;
+    let editSource = null;  // "base" or "custom"
+
+    let isEditor = false;
 
     const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const monthNames = [
       "January","February","March","April","May","June",
       "July","August","September","October","November","December"
     ];
+
+    // ----- editor role helpers -----
+    function loadEditorFlag() {
+      isEditor = localStorage.getItem(EDITOR_FLAG_KEY) === "1";
+    }
+
+    function saveEditorFlag() {
+      if (isEditor) {
+        localStorage.setItem(EDITOR_FLAG_KEY, "1");
+      } else {
+        localStorage.removeItem(EDITOR_FLAG_KEY);
+      }
+    }
+
+    function applyRoleUI() {
+      if (isEditor) {
+        addEventBtn.style.display = "inline-flex";
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-flex";
+      } else {
+        addEventBtn.style.display = "none";
+        loginBtn.style.display = "inline-flex";
+        logoutBtn.style.display = "none";
+      }
+    }
 
     // ----- storage helpers -----
     function loadDoneMap() {
@@ -888,7 +874,31 @@
       localStorage.setItem(CUSTOM_KEY, JSON.stringify(customRawEvents));
     }
 
-    // ----- event id (now unique per row) -----
+    function loadBaseOverrides() {
+      try {
+        baseOverrides = JSON.parse(localStorage.getItem(BASE_OVERRIDE_KEY) || "{}");
+      } catch {
+        baseOverrides = {};
+      }
+    }
+
+    function saveBaseOverrides() {
+      localStorage.setItem(BASE_OVERRIDE_KEY, JSON.stringify(baseOverrides));
+    }
+
+    function loadBaseDeleted() {
+      try {
+        baseDeleted = JSON.parse(localStorage.getItem(BASE_DELETED_KEY) || "{}");
+      } catch {
+        baseDeleted = {};
+      }
+    }
+
+    function saveBaseDeleted() {
+      localStorage.setItem(BASE_DELETED_KEY, JSON.stringify(baseDeleted));
+    }
+
+    // ----- event id (unique per row) -----
     function makeEventId(ev) {
       return `${ev._source || "x"}|${ev._rawIndex != null ? ev._rawIndex : ""}`;
     }
@@ -921,7 +931,6 @@
       const s = String(rawDate || "").trim();
       if (!s) return null;
 
-      // Prefer YYYY-MM-DD
       const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
       if (m) {
         const year = parseInt(m[1], 10);
@@ -978,7 +987,11 @@
     }
 
     function rebuildAllEvents() {
-      const baseMapped = (baseRaw || []).map((raw, idx) => {
+      const baseMapped = (baseRaw || []).map((orig, idx) => {
+        if (baseDeleted[idx]) return null;
+        const raw = Object.prototype.hasOwnProperty.call(baseOverrides, idx)
+          ? baseOverrides[idx]
+          : orig;
         const ev = mapEvent(raw);
         if (!ev) return null;
         ev._source = "base";
@@ -998,12 +1011,17 @@
     }
 
     // ----- load data -----
+    loadEditorFlag();
+    applyRoleUI();
+
     fetch("schedule.json")
       .then(res => res.json())
       .catch(() => [])
       .then(data => {
         baseRaw = data || [];
 
+        loadBaseOverrides();
+        loadBaseDeleted();
         loadCustomRaw();
         rebuildAllEvents();
         loadDoneMap();
@@ -1191,17 +1209,20 @@
       const timeStr = ev.timeDisplay ? ` • ${ev.timeDisplay}` : "";
       modalMeta.textContent = dateStr + timeStr;
 
-      if (currentEventSource === "custom") {
+      if (isEditor) {
         modalDeleteBtn.style.display = "inline-flex";
         modalEditBtn.style.display = "inline-flex";
+        modalDoneBtn.style.display = "inline-flex";
       } else {
         modalDeleteBtn.style.display = "none";
         modalEditBtn.style.display = "none";
+        modalDoneBtn.style.display = "none";
       }
 
       modalBadges.innerHTML = "";
       const badges = [];
       if (ev.audience) badges.push({ text: ev.audience, accent: true });
+      if (ev.objective) badges.push({ text: ev.objective, accent: false });
 
       for (const b of badges) {
         const span = document.createElement("span");
@@ -1261,12 +1282,13 @@
       modal.setAttribute("aria-hidden", "true");
     }
 
-    function openCreateModal(prefillDate, raw, index) {
+    function openCreateModal(prefillDate, raw, index, source) {
       createForm.reset();
 
       if (raw) {
         editMode = true;
         editIndex = index;
+        editSource = source || "custom";
         createTitle.textContent = "Edit email send";
 
         createForm.date.value = raw.date || "";
@@ -1286,6 +1308,7 @@
       } else {
         editMode = false;
         editIndex = null;
+        editSource = null;
         createTitle.textContent = "Add email send";
         if (prefillDate) {
           createForm.date.value = prefillDate;
@@ -1301,6 +1324,7 @@
       createModal.setAttribute("aria-hidden", "true");
       editMode = false;
       editIndex = null;
+      editSource = null;
     }
 
     // ----- listeners -----
@@ -1312,6 +1336,7 @@
     });
 
     modalDoneBtn.addEventListener("click", () => {
+      if (!isEditor) return;
       if (!currentEventId) return;
 
       if (doneMap[currentEventId]) {
@@ -1334,24 +1359,42 @@
     });
 
     modalDeleteBtn.addEventListener("click", () => {
-      if (currentEventSource !== "custom" || currentEventIndex == null) {
-        return;
-      }
-      if (!confirm("Delete this custom send from your calendar?")) return;
+      if (!isEditor) return;
 
-      customRawEvents.splice(currentEventIndex, 1);
-      saveCustomRaw();
-      rebuildAllEvents();
-      closeModal();
-      renderCalendar();
+      if (currentEventSource === "custom") {
+        if (!confirm("Delete this custom send from your calendar?")) return;
+        if (currentEventIndex == null) return;
+
+        customRawEvents.splice(currentEventIndex, 1);
+        saveCustomRaw();
+        rebuildAllEvents();
+        closeModal();
+        renderCalendar();
+      } else if (currentEventSource === "base") {
+        if (currentEventIndex == null) return;
+        if (!confirm("Hide this base send on this calendar? The original Excel/JSON stays untouched.")) return;
+
+        baseDeleted[currentEventIndex] = true;
+        saveBaseDeleted();
+        rebuildAllEvents();
+        closeModal();
+        renderCalendar();
+      }
     });
 
     modalEditBtn.addEventListener("click", () => {
-      if (currentEventSource !== "custom" || currentEventIndex == null) {
-        return;
+      if (!isEditor) return;
+      if (currentEventIndex == null) return;
+
+      if (currentEventSource === "custom") {
+        const raw = customRawEvents[currentEventIndex];
+        if (!raw) return;
+        openCreateModal(null, raw, currentEventIndex, "custom");
+      } else if (currentEventSource === "base") {
+        const raw = baseOverrides[currentEventIndex] || baseRaw[currentEventIndex];
+        if (!raw) return;
+        openCreateModal(raw.date || null, raw, currentEventIndex, "base");
       }
-      const raw = customRawEvents[currentEventIndex];
-      openCreateModal(null, raw, currentEventIndex);
     });
 
     prevMonthBtn.addEventListener("click", () => {
@@ -1372,7 +1415,10 @@
       renderCalendar();
     });
 
-    addEventBtn.addEventListener("click", () => openCreateModal());
+    addEventBtn.addEventListener("click", () => {
+      if (!isEditor) return;
+      openCreateModal();
+    });
 
     createClose.addEventListener("click", closeCreateModal);
 
@@ -1394,6 +1440,10 @@
 
     createForm.addEventListener("submit", (e) => {
       e.preventDefault();
+      if (!isEditor) {
+        alert("Editor login required to save changes.");
+        return;
+      }
 
       const raw = {
         date: createForm.date.value,
@@ -1418,19 +1468,31 @@
       }
 
       let targetIndex;
+      let targetSource;
+
       if (editMode && editIndex != null) {
-        customRawEvents[editIndex] = raw;
-        targetIndex = editIndex;
+        if (editSource === "base") {
+          baseOverrides[editIndex] = raw;
+          saveBaseOverrides();
+          targetIndex = editIndex;
+          targetSource = "base";
+        } else {
+          customRawEvents[editIndex] = raw;
+          saveCustomRaw();
+          targetIndex = editIndex;
+          targetSource = "custom";
+        }
       } else {
         customRawEvents.push(raw);
+        saveCustomRaw();
         targetIndex = customRawEvents.length - 1;
+        targetSource = "custom";
       }
 
-      saveCustomRaw();
       rebuildAllEvents();
 
       const mapped = allEvents.find(
-        ev => ev._source === "custom" && ev._rawIndex === targetIndex
+        ev => ev._source === targetSource && ev._rawIndex === targetIndex
       );
       if (mapped) {
         currentYear = mapped.year;
@@ -1455,6 +1517,27 @@
 
       renderCalendar();
       closeCreateModal();
+    });
+
+    // ----- login / logout -----
+    loginBtn.addEventListener("click", () => {
+      const entered = prompt("Enter editor password:");
+      if (entered === null) return;
+      if (entered === EDIT_PASSWORD) {
+        isEditor = true;
+        saveEditorFlag();
+        applyRoleUI();
+        alert("Editor mode enabled.");
+      } else {
+        alert("Incorrect password.");
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      isEditor = false;
+      saveEditorFlag();
+      applyRoleUI();
+      alert("Editor mode disabled.");
     });
   </script>
 </body>
